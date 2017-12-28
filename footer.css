@@ -1,0 +1,46 @@
+.style-jar6i53oinlineContent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.txtNew p {
+    margin: 0;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.font_9 {
+    font: normal normal normal 13px/1.4em spinnaker,sans-serif;
+    color: #000000;
+}
+
+.color_26 {
+    color: #FFFFFF;
+}
+
+.font_8 {
+    font: normal normal normal 15px/1.4em spinnaker,sans-serif;
+    color: #000000;
+}
+
+.style-jar6fp7i[data-state~="left"] {
+    direction: ltr;
+    text-align: left;
+}
+.style-jar6fp7isubmit {
+    border: 0px solid rgba(255, 255, 255, 1);
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 1);
+    color: #2394C0;
+    min-width: 150px;
+    max-width: calc(100% - 40px);
+    min-height: 55px;
+    line-height: 55px;
+    margin: -19px auto 15px auto;
+    display: block;
+    font: normal normal normal 25px/1.4em cookie,cursive;
+    padding: 12px;
+  }

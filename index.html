@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="assets\unhuLogo.ico" type="image/icon">
+<link rel="icon" href="assets\unhuLogo.ico" type="image/icon">
+
+<link rel="stylesheet" href="style2.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="font-awesome.min.css">
+
+<link href="https://fonts.googleapis.com/css?family=Alegreya|Indie+Flower" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/11f5caca4e.js"></script>
+
+<style type="text/css">
+  .btn-primary {
+    transition: all 0.5s ease;
+    color: #fff;
+    background-color: transparent; */
+    border-color: #2e6da4; */
+  }
+  .btn-primary:hover{
+    z-index: 2;
+    -webkit-transition: all 200ms ease-in;
+    
+    -ms-transition: all 200ms ease-in;
+      
+    -moz-transition: all 200ms ease-in;
+    
+    transition: all 200ms ease-in;
+     
+  }
+</style>
+  <title>unhu</title>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+  // Get the modal
+jQuery(document).ready(function($) {
+  // Get the modal
+
+        $.get("https://api.instagram.com/v1/users/self/media/recent/?access_token=5364573198.d90570a.491641e7c44c4fbe8f1362ca6510a384", function(result){
+                        //console.log(result.data[0].images.low_resolution.url);
+                        //console.log($('#insta-row1'));
+
+                        for(var i=0;i<=7;i++)
+                        {
+                          //console.log('Hi');
+                          if(i<4)
+                          {
+                            //console.log('Hi');
+                            jQuery('<div/>', {
+                            id: 'img-'+i,
+                            class: 'col-sm-3 col-md-3',
+                            }).appendTo('#insta-row1');
+                          }
+                          else
+                          {
+                            jQuery('<div/>', {
+                            id: 'img-'+i,
+                            class: 'col-sm-3 col-md-3',
+                            }).appendTo('#insta-row2');
+                          }
+
+                          /*var img = $('<img />').attr({
+                              'id': 'myImage'+i,
+                              'src': result.data[i].images.low_resolution.url,
+                              'alt': 'JSFiddle logo',
+                              'title': 'JSFiddle logo',
+                              'width': 250,
+                              'height': 250
+                          }).appendTo('#img-'+i);*/
+
+                          if(result.data[i].type == "image")
+                          {
+                            //console.log(result.data[i].images.low_resolution.url);
+                            var img = $('<img />').attr({
+                              'id': 'myImage-'+i,
+                              'class': 'insta-pic',
+                              'src': result.data[i].images.standard_resolution.url,
+                              'alt': 'insta-pic-alt',
+                              'title': '',
+                              'width': 300,
+                              'height': 300
+                            }).appendTo('#img-'+i);
+                          }
+                          else
+                          {
+                            //console.log(result.data[i].images.low_resolution.url);
+                              var img = $('<img />').attr({
+                              'src': result.data[i].images.standard_resolution.url,
+                              'id': 'myImage-'+i,
+                              'alt': 'insta-pic-alt',
+                              'class': 'insta-pic',
+                              'title': '',
+                              'width': 300,
+                              'height': 300
+                            }).appendTo('#img-'+i);
+
+                          }
+                          //console.log(result.data[i].images.low_resolution.url);
+
+                          //console.log('Hello');
+                          //console.log(i);
+                          /*$("#myImage-"+i).click(function(){
+                             //console.log('Hii kaise ho');
+                             //console.log($("myModal"));
+
+                             //console.log(i);
+                             $("#myModal").css("display", "block");
+                             $("#img01").attr("src", result.data[i].images.low_resolution.url);
+
+
+                          })*/
+
+
+                          /*$(window).click(function(event) {
+                            //console.log('Kya haal hai');
+                            console.log($(".modal"));
+                            if(event.target == $(".modal"))
+                            {
+                              console.log('asd haal hai');
+                              $(".modal").css("display", "none");
+                            }
+                          });*/
+
+                          window.onclick = function(event) {
+                            console.log(event.target.alt);
+                            if(event.target.alt == "insta-pic-alt")
+                            {
+                            //console.log('Hey');
+                              $("#myModal").css("display", "block");
+                              //console.log(event.target.src);
+                              $("#img01").attr("src", event.target.src);
+                            }
+
+                            if (event.target == document.getElementById("myModal")) {
+                              document.getElementById("myModal").style.display = "none";
+                          }
+                        }
+                            }
+
+        });
+
+});
+
+});
+
+$(window).scroll(function () {
+      var sc = $(window).scrollTop()
+    if (sc > 100) {
+        $(".header #header-sroll").addClass("small")
+    } else {
+        $(".header #header-sroll").removeClass("small")
+    }
+    if( sc>=0 && sc<=100) {
+      $("")
+    }
+
+});
+
+</script>
+</head>
+
+<body>
+
+
+	<!-- All transitions are based on scrollbar postion,
+				data-0 -> scroll position at 0px from top
+				data-100p -> scroll position at 100px from top -->
+
+	<!-- Parallax section -->
+	<div id="home" style="z-index:6" class="parallax" data-0="transform:translate(0,0%);" data-100p="transform:translate(0,-100%);">
+
+		<div class="parallax_layer parallax_layer-deep">
+      <div class="title"><img src="assets\designchanges phase1\Background-Image.png"></div>
+    </div>
+
+		<div class="parallax_layer parallax_layer-back">
+      <div class="title"><img src="assets\designchanges phase1\Parallax-1.png"></div>
+    </div>
+    <div class="parallax_layer parallax_layer-middle">
+      <div class="title">
+        <img style="padding-top: 550px;padding-left: 0%;"src="assets\designchanges phase1\Parallax-element-1.png">
+      </div>
+</div>
+    <div class="parallax_layer parallax_layer-front">
+      <div class="title"><img style="padding-top: 600px;padding-left: 0%;" src="assets\designchanges phase1\parallax-element-2.png"></div>
+    </div>
+    <div class="parallax_layer parallax_layer-unhu">
+      <div class="title">
+            <a id="googlPlay"  href="https://play.google.com/store/apps/details?id=com.unhu.unhu" target="_blank"><img style="padding-top: 250px;" src="assets\images\unhuMobile.png"></img></a>
+      </div>
+      <div class="title">
+      <a id="googlPlay1"  href="https://play.google.com/store/apps/details?id=com.unhu.unhu" target="_blank"><img style="padding-bottom:250px;" src="assets\images\googlPlay.png"></img></a>
+        </div>
+    </div>
+  </div>
+<!--Parallax ends-->
+<div class="header" style="z-index: 10">
+<div id="header-sroll">
+<ul>
+		<li id="aoutLi"><a href="#aboutSec" data-menu-top="350">About Us</a></li>
+		<li id="featureLi"><a href="#featureSec" data-menu-top="372p">Features</a></li>
+		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
+		<li id="teamLi"><a href="#team" data-menu-top="1980p">Our Team</a></li>
+		<li id="contactLi"><a href="#contactUs" data-menu-top="15598">Contact</a></li>
+	</ul>
+
+</div>
+</div>
+
+
+<!-- Train transition -->
+<!-- toytrain.png is transformed over the train_tracks.png -->
+
+  <div id="featureSec" class="train-wrap" skrollr-tag="" data-2100="opacity:0" data-2250="opacity:1;" data-top-top="position:fixed; top:0%" data-9250="top:0%; opacity:1" data-10000="top:-100%;opacity:0;" style="opacity: 0; top: 0%; position: fixed;">
+      <img skrollr-tag="" src="assets\designchanges phase1\Train-Tracks.png" class="track skrollable skrollable-before" data-2200="opacity:0;" data-2400="opacity:1;" data-2500="opacity:1;" style="opacity: 0;">
+
+      <img skrollr-tag="" src="assets\designchanges phase1\toytrain.png" style="width: 180px; height: 70px;" class="train skrollable skrollable-before" data-2500="top: 65px; left: Calc(100% - 0px);" data-3520="top: 65px; left: calc(50% - 170px); transform: rotate(0deg);" data-3750="transform: rotate(-90deg); top: 120.5px; left: calc(50% - 210px)" data-4000="transform: rotate(-180deg); top: 148px; left: calc(50% - 130px)" data-4500="left: Calc(50% - 15px); transform: rotate(-180deg);" data-4550="transform: rotate(-90deg); left: calc(50% - -30px); top:204px" data-5000="transform: rotate(0deg); left: calc(50% - -10px); top:225px" data-5500="top: 225px; left: calc(50% - 190px); transform: rotate(0deg);" data-5750="transform: rotate(-90deg); top: 285px; left: calc(50% - 210px)" data-6000="transform: rotate(-180deg); left: calc(50% - 125px); top:310px" data-6500="transform: rotate(-180deg); left: calc(50% - 10px); top:310px" data-6750="transform: rotate(-90deg); left: calc(50% - -10px); top:365px" data-7000="transform: rotate(0deg); left: calc(50% - -15px); top:390px" data-7250="transform: rotate(0deg); left: calc(50% - 180px); top:390px" data-7500="transform: rotate(-90deg); left: calc(50% - 210px); top:445px" data-7750="transform: rotate(-180deg); left: calc(50% - 120px); top:470px" data-8250="transform: rotate(-180deg); left: calc(50% - 25px); top:470px" data-8500="transform: rotate(-90deg); left: calc(50% - -25px); top:527.5px" data-8750="transform: rotate(0deg); left: calc(50% - 25px); top:550px" data-9250="transform: rotate(0deg); left: calc(-10% - 0px); top:550px" style="top: 78px; left: calc(100% - 0px); transform: rotate(0deg);">
+
+
+                      <img src="assets\designchanges phase1\Signboard--Discover-Interests.png" skrollr-tag="" class="dot dot1 skrollable skrollable-before" data-3250="opacity:0; top:120px; left:calc(50% - 180px);" data-3500="opacity:1; top:120px; left:calc(50% - 180px);" style="opacity: 0; top: 120px; left: calc(50% - 180px);">
+                      <img src="assets\designchanges phase1\Signboard---videos-meet-content.png" skrollr-tag="" class="dot dot2 skrollable skrollable-before" data-4250="opacity:0; top:205px; left:calc(50% - -95px);" data-4500="opacity:1; top:205px; left:calc(50% - -95px);" style="opacity: 0; top: 205px; left: calc(50% - -95px);">
+                      <img src="assets\designchanges phase1\Signboard---shoot-creativity.png" skrollr-tag="" class="dot dot3 skrollable skrollable-before" data-5250="opacity:0; top: 280px; left:calc(50% - 270px);" data-5500="opacity:1; top: 280px; left:calc(50% - 270px);" style="opacity: 0; top: 280px; left: calc(50% - 270px);">
+                      <img src="assets\designchanges phase1\Signboard---express-yourself.png" skrollr-tag="" class="dot dot4 skrollable skrollable-before" data-6250="opacity:0; top: 365px; left:calc(50% + 5px);" data-6500="opacity:1; top: 365px; left:calc(50% + 5px);" style="opacity: 0; top: 365px; left: calc(50% + 5px);">
+                      <img src="assets\designchanges phase1\signboard---own-blog.png" skrollr-tag="" class="dot dot5 skrollable skrollable-before" data-7250="opacity:0; top: 445px; left:calc(50% - 360px);" data-7500="opacity:1; top: 445px; left:calc(50% - 360px);" style="opacity: 0; top: 445px; left: calc(50% - 360px);">
+                      <img src="assets\designchanges phase1\Signbord---share-connect.png" skrollr-tag="" class="dot dot6 skrollable skrollable-before" data-8250="opacity:0; top: 520px; left:calc(50% - 80px);" data-8500="opacity:1; top: 520px; left:calc(50% - 80px);" style="opacity: 0; top: 520px; left: calc(50% - 80px);">
+
+                      <div class="text tl1 skrollable skrollable-before" skrollr-tag="" data-3250="opacity:0; top:80px; left:calc(50% - 450px);" data-3500="opacity:1;" data-8750="opacity:1; left:calc(50% - 450px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 80px; left: calc(50% - 450px);">
+                          <p class="num">Discover Interest</p>
+                          <p class="train-text">Magnify your interests by browsing through</p>
+                          <p class="train-text">the best content discovery platform.</p>
+                      </div>
+
+                      <div class="text tr1 skrollable skrollable-before" skrollr-tag="" data-4250="opacity:0; top:135px; left:calc(50% - -200px);" data-4500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 135px; left: calc(50% - -200px);">
+                          <p class="num">Videos meet Content</p>
+                          <p class="train-text">A wide variety of over 35,000+ interactive videos</p>
+                          <p class="train-text">available with written content, for the ones</p>
+													<p class="train-text">who want to dig deeper</p>
+                      </div>
+
+                      <div class="text tl2 skrollable skrollable-before" skrollr-tag="" data-5250="opacity:0; top:240px; left:calc(50% - 470px);" data-5500="opacity:1;" data-8750="opacity:1; left:calc(50% - 470px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 240px; left: calc(50% - 470px);">
+                          <p class="num">Shoot Creativity</p>
+													<p class="train-text">Show your creative skills within 30 seconds.</p>
+                          <p class="train-text">All you need is 30 seconds to fame</p>
+                      </div>
+
+                      <div class="text tr2 skrollable skrollable-before" skrollr-tag="" data-6250="opacity:0; top:310px; left:calc(50% - -200px);" data-6500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 310px; left: calc(50% - -200px);">
+                          <p class="num">Express Yourself</p>
+                          <p class="train-text">Something interesting happened around you?</p>
+													<p class="train-text">Don’t hesitate to share it with the world</p>
+                      </div>
+
+                      <div class="text tl3 skrollable skrollable-before" skrollr-tag="" data-7250="opacity:0; top:405px; left:calc(50% - 490px);" data-7500="opacity:1" ;="" data-8750="opacity:1; left:calc(50% - 490px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 405px; left: calc(50% - 490px);">
+                          <p class="num">Own Blog</p>
+                          <p class="train-text">Micro blogging at its best, allows everyone to</p>
+                          <p class="train-text">write, customise and share their thoughts with</p>
+													<p class="train-text">the world in the easiest possible way</p>
+                      </div>
+
+                      <div class="text tr3 skrollable skrollable-before" skrollr-tag="" data-8250="opacity:0; top:470px; left:calc(50% - -200px);" data-8500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 470px; left: calc(50% - -200px);">
+                          <p class="num">Share Connect</p>
+													<p class="train-text">Family, friends, business and love, each play a</p>
+                          <p class="train-text">different role in your life. Let’s keep each bond special.</p>
+                          <p class="train-text">Also, get answers to all your questions, by</p>
+													<p class="train-text">asking literally anything to ‘Guru’</p>
+                      </div>
+
+
+</div>
+
+<!-- train section ends -->
+
+<!--About us -->
+	<div id="aboutSec" style="z-index:6" data-0="transform:translate(0,100%);opacity:1;" data-100p="transform:translate(0,0%)" data-200p="opacity:1;" data-250p="opacity:1;" data-300p="opacity:1;" data-301p="opacity:0;" data-_box-100p="" data-_box-100p="transform:translate(0,0%);opacity:1;" data-_box-124p="transform:translate(0,0%);opacity:1;" data-_box-301p="transform:translate(0,0%);opacity:0;" data-_box-302p="transform:translate(0,-100%);opacity:0;">
+		<div class="box" data-100p="opacity:1;" data-_box-150p="opacity:1;"  data-250p="opacity:1;" data-274p="opacity:1;" data-300p="opacity:1;" data-351p="opacity:0;">
+      <div data-100p="opacity:0;"  data-150p="opacity:1;" data-150p="opacity:1;"  data-210p="opacity: 1" data-274p="opacity:0;" data-275p="opacity:0;">
+
+				<!-- <div class="col-md-6 col-sm-6">
+					<div class="row">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+					</div>
+					<div  id="insta" class="row">
+						<img src="http://www.color-hex.com/palettes/1051.png" width="560" height="315">
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6">
+					<div class="row" id="about"><h1>About us</h1></div>
+					<div class="row" id="aboutPic" style="padding: 30px 40px;text-align:justify">
+						<p class="col-sm-6 col-md-6" style="text-align:justify;font-style:Roboto;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+
+						<p class="col-sm-6 col-md-6" style="text-align:justify">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+
+				</div>
+			</div> -->
+
+
+
+				<div class="row">
+          <div class="col-sm-6 col-md-6"></div><div class="col-sm-6 col-md-6" id="about"><h1>About us</h1></div></div>
+        <div class="row"><div class="col-sm-6 col-md-6">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
+				<div id="aboutPic" class="col-sm-6 col-md-6" style="padding: 30px 40px;text-align:justify">
+
+
+
+
+        	<p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
+font-family: 'Alegreya', serif;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+
+					<p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
+font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+
+				</div>
+        </div>
+    </div>
+	</div>
+</div>
+<div class="train-reveal" style="z-index:7" data-0="transform:translate(0,100%);opacity:0;" data-249p="transform:translate(0,110%);opacity:0;" data-250p="transform:translate(0,100%);opacity:1;" data-300p="transform:translate(0,0%);opacity:1;" data-380p="transform:translate(0,-100%);opacity:1;" data-380p="transform:translate(0,-100%);opacity:0;" data-381p="transform:translate(0,-150%);opacity:0;">
+	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
+</div>
+
+<!-- About us ends -->
+
+<!--Mission and Vision -->
+	<!-- <div id="mission" data-9250="transform:translate(0,-100%);opacity:0;" data-10000="transform:translate(0,-100%);opacity:1;" data-10200="opacity:1;" data-10300="opacity:1;" data-_box-400p="" data-_box-600p="transform:translate(0,0%);opacity:1;" data-_box-700p="transform:translate(0,-100%);opacity:0;">
+		<div class="box" data-400p="opacity:1;" data-_box-450p="opacity:1;"  data-600p="opacity:1;" data-700p="opacity:1;">
+      <div data-400p="opacity:0;" data-430p="opacity:0;" data-450p="opacity:1;" data-500p="opacity:1;"  data-600p="opacity:0;">
+        <h1>Our mission</h1>
+				<h1>"to increase the sight of young minds by helping them explore their interests and connect them with like minded individuals”</h1>
+        <div class="row"><div class="col-sm-6 col-md-6">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
+				<div id="aboutPic" class="col-sm-6 col-md-6" style="padding: 30px 40px;text-align:justify">
+
+					<p class="col-sm-6 col-md-6" style="text-align:justify">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+
+					<p class="col-sm-6 col-md-6" style="text-align:justify">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+				</div>
+        </div>
+    </div>
+	</div>
+</div> -->
+
+<!-- Mission ends -->
+
+<div id="instaReveal" class="train-reveal" data-0="transform:translate(0,100%);opacity:0;" data-9244="transform:translate(0,120%);opacity:1;" data-9245="transform:translate(0,120%);opacity:1;" data-9250="transform:translate(0,100%);opacity:1;" data-9500="transform:translate(0,0%);opacity:1;" data-9750="transform:translate(0,-100%);opacity:1;" data-9875="transform:translate(0,-150%);opacity:1;">
+	<div class="title"><img src="assets\designchanges phase1\Parallax-1.png"></div>
+</div>
+
+<div id="insta"  style="z-index:2;" class="insta" data-0="top:100%;opacity:0;" data-9499="top:100%;opacity:0;" data-9500="top:100%;opacity:1;" data-9750="top:0%;opacity:1;" data-10050="top:0%;opacity:1;"  data-10340="top:0%;opacity:1;" data-10350="top:0%;opacity:0;" data-10352="top:-150%;opacity:0;">
+  <div class="row" id="insta-row1" style="margin-right: 0px; margin-left: 0px;">
+
+ </div><br/>
+
+ <div class="row" id="insta-row2" style="margin-right: 0px; margin-left: 0px;">
+   <div class="col-sm-3 col-md-3" style="padding-right: 0px;">
+
+   </div>
+   <div class="col-sm-3 col-md-3" style="padding-right: 0px;">
+
+   </div>
+   <div class="col-sm-3 col-md-3" style="padding-right: 0px;">
+
+   </div>
+   <div class="col-sm-3 col-md-3" style="padding-right: 0px;">
+
+   </div>
+ </div><br/><br/><br />
+
+
+ <div class="row" style="margin-right: 0px; margin-left: 0px;">
+
+   <div class="col-sm-4 col-md-5">
+
+   </div>
+   <div class="col-sm-2 col-md-2">
+
+     <a id="button" class="btn btn-primary btn-outline btn-lg" target="_blank" href="https://www.instagram.com/unhu_app/">View more <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+   </div>
+
+ </div>
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
+</div>
+
+<div  id="instaExit" style="z-index:7;" class="train-reveal" data-0="transform:translate(0,100%);opacity:0;" data-9970="transform:translate(0,110%);opacity:0;" data-9975="transform:translate(0,100%);opacity:1;" data-10350="transform:translate(0,0%);opacity:1;" data-10631="transform:translate(0,-75%);opacity:1;" data-10725="transform:translate(0,-100%);opacity:1;" data-10726="transform:translate(0,-150%);opacity:0;">
+	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
+</div>
+
+
+<div class="testimonial-section skrollable skrollable-between" style="z-index:5;" skrollr-tag="" data-0="top:100%;opacity:0;" data-9974="top:100%;opacity:0;" data-9975="top:100%;opacity:1;" data-10350="top:0%;opacity:1;" data-top-top="position:fixed; top:0%" data-12873="top:0%" data-13023="top:-75%" data-13073="top:-100%;opacity:0;" style="position: fixed; top: 0%; opacity: 0;">
+		<img src="assets\integrationoftheballonsection\1.png" skrollr-tag="" class="balloon1 skrollable skrollable-before" data-9875="top:100%; left:100px" data-11773="top:-120%;left:100px" style="top: 100%; left: 100px;">
+		<img src="assets\integrationoftheballonsection\2.png" skrollr-tag="" class="balloon2 skrollable skrollable-before" data-11273="top:100%; right:100px;" data-11873="top:-90%" style="top: 100%; right: 100px;">
+		<img src="assets\integrationoftheballonsection\3.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-11323="top:100%; left:200px" data-12723="top:-100%" style="top: 100%; left: 200px;">
+		<img src="assets\integrationoftheballonsection\4.png" skrollr-tag="" class="balloon4 skrollable skrollable-before" data-11873="top:100%; right:100px;" data-12873="top:-90%" style="top: 100%; right: 100px;">
+		<img src="assets\integrationoftheballonsection\5.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-12323="top:100%; left:200px" data-12423="top:100%;"data-13073="top:-100%" style="top: 100%; left: 200px;">
+		<img src="assets\integrationoftheballonsection\cloud3.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-11073="top:100%" data-12073="top:-90%;" style="top: 100%;">
+		<img src="assets\integrationoftheballonsection\cloud2.png" skrollr-tag="" class="cloud2 skrollable skrollable-before" data-9975="top:120%;left:60%;" data-12073="top:-80%;" style="top: 120%; left: 60%;">
+		<img src="assets\integrationoftheballonsection\Cloud1.png" skrollr-tag="" class="cloud1 skrollable skrollable-before" data-11573="top:150%;left:60%;" data-12573="top:-80%;" style="top: 150%; left: 60%;">
+		<img src="assets\integrationoftheballonsection\cloud5.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-12123="top:100%" data-12323="top:60%" data-13073="top:-70%;" style="top: 100%;">
+
+		<div class="test skrollable skrollable-before" skrollr-tag="" data-9975="top:100%; left:400px" data-11975="top:-120%" style="top: 100%; left: 400px;">
+        <p class="quote">"A powerful Machine Learning technology used in the news feed &nbsp;&nbsp;"</p>
+        <p class="quote">to show you the content of your choice in the language of your choice.&nbsp;</p>
+    </div>
+
+    <div class="test right skrollable skrollable-before" skrollr-tag="" data-11315="top:100%; right:350px;" data-11915="top:-90%" style="top: 100%; right: 350px;">
+        <p class="quote">The best content from your favourite genre &nbsp;&nbsp;</p>
+        <p class="quote">is now just 2 taps away!&nbsp;&nbsp;</p>
+        <p class="quote"></p>
+        <p class="author">&nbsp;&nbsp;</p>
+    </div>
+
+	<div class="test skrollable skrollable-before" skrollr-tag="" data-11405="top:100%; left:450px" data-12805="top:-100%" style="top: 100%; left: 450px;">
+        <p class="quote">Leave an impact in the world by sharing what's in your mind</p>
+        <p class="quote">&nbsp;&nbsp;</p>
+        <p class="quote">&nbsp;&nbsp;</p>
+        <p class="author">&nbsp;&nbsp;</p>
+    </div>
+
+	<div class="test right skrollable skrollable-before" skrollr-tag="" data-11975="top:100%; right:400px" data-12975="top:-90%" style="top: 100%; right: 400px;">
+        <p class="quote">Have you met Guru?  &nbsp;&nbsp;</p>
+        <p class="quote">You're going to love chatting with him.</p>
+        <p class="quote">Feel free to ask him literally anything &nbsp;&nbsp;</p>
+    </div>
+
+		<div class="test skrollable skrollable-before" skrollr-tag="" data-12465="top:100%; left:440px" data-13115="top:-100%" style="top: 100%; left: 440px;">
+        <p class="quote">India is a land of some spectacular writers and photographers!</p>
+        <p class="quote"> Join Unhu and let's form our creative community
+&nbsp;</p>
+    </div>
+
+</div>
+
+
+<!-- our team section scroll:9250 to 12000 -->
+
+
+<div id="team" style="z-index:8;"data-12673="top:100%" data-12873="top:50%" data-13073="top:0%" data-14973="top:-75%" data-15473="top:-100%" data-16298="top:-175%">
+
+  <div class="container">
+    <div class="heading-title text-center">
+        <h3 class="text-uppercase" style="text-align: center;">Our Team </h3>
+    </div>
+
+                    <div class="row"  data-12223="top:100%;opacity:0;" data-12273="top:0%;opacity:0;" data-13173="top:0%;opacity:1;">
+ 											<div class="col-md-3 col-sm-3">
+													<div class="team-member">
+															<div class="team-img">
+																	<img src="assets\team\kshitij.PNG" alt="team member" class="img-responsive">
+															</div>
+															<!-- <div class="team-hover">
+																	<div class="desk">
+																			<h4>Hello World</h4>
+																			<p>I love to introduce myself as a hardcore Web Designer.</p>
+																	</div>
+																	<div class="s-link">
+																			<a href="https://www.facebook.com/kshitij.doval"><i class="fa fa-facebook"></i></a>
+																			<a href="https://twitter.com/Doval31"><i class="fa fa-twitter"></i></a>
+																			<a href="https://www.linkedin.com/in/kshitij-doval-63109499/"><i class="fa fa-linkedin"></i></a>
+																	</div>
+															</div> -->
+													</div>
+													<div class="team-title">
+														<h5><u>KSHITIJ DOVAL</u></h5>
+															<span>Chief Executive Officer (CEO), Co-founder</span><br>
+														<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">PMO at HCL and MBA from Amity Business School, specialised in Marketing, Operations and International Business. He is the father of the idea. He looks after the overall business strategy, marketing and business relations of Unhu</p>
+										-->			</div>
+											</div>
+
+											<div class="col-md-3 col-sm-3">
+													<div class="team-member">
+															<div class="team-img">
+																	<img src="assets\team\Hitesh.PNG" alt="team member" class="img-responsive">
+															</div>
+															<!-- <div class="team-hover">
+																	<div class="desk">
+																			<h4>I love to design</h4>
+																			<p>I love to introduce myself as a hardcore Web Designer.</p>
+																	</div>
+																	<div class="s-link">
+																			<a href="#"><i class="fa fa-facebook"></i></a>
+																			<a href="#"><i class="fa fa-twitter"></i></a>
+																			<a href="#"><i class="fa fa-google-plus"></i></a>
+																	</div>
+															</div> -->
+													</div>
+													<div class="team-title">
+														<h5><u>HITESH</u></h5>
+															<span>Chief Operations Officer (COO), Co-founder</span><br>
+											<!--				<p style="text-align: justify;font-size: 15px;font-weight: 400;">MBA from Amity Business School, specialised in Finance and International Business. Previously worked at BlackRock and Josh Talks. He is the brain behind Unhu. Nobody can move a single penny without his approval, as he knows what is best for the business</p>
+										-->		</div>
+											</div>
+
+
+											                        <div class="col-md-3 col-sm-3">
+											                            <div class="team-member">
+											                                <div class="team-img">
+											                                    <img src="assets\team\Kartik.png" alt="team member" class="img-responsive">
+											                                </div>
+											                                <!-- <div class="team-hover">
+											                                    <div class="desk">
+											                                        <h4>Hello World</h4>
+											                                        <p>I love to introduce myself as a hardcore Web Designer.</p>
+											                                    </div>
+											                                    <div class="s-link">
+											                                        <a href="#"><i class="fa fa-facebook"></i></a>
+											                                        <a href="#"><i class="fa fa-twitter"></i></a>
+											                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+											                                    </div>
+											                                </div> -->
+											                            </div>
+											                            <div class="team-title">
+															    <h5><u>KARTIK SINGH</u></h5>
+											                                <span>Chief Design Partner</span><br>
+																									<!--		<p style="text-align: justify;font-size: 15px;font-weight: 400;">Worked as Senior Executive in Grofers. The chief architect behind building the design infrastructure of the company. He is the Da Vinci of Unhu
+											</p>									-->
+											                            </div>
+											                        </div>
+
+
+
+                        <div class="col-md-3 col-sm-3">
+                            <div class="team-member">
+                                <div class="team-img">
+                                    <img src="assets/team/mrinal.PNG" alt="team member" class="img-responsive">
+                                </div>
+                                <!-- <div class="team-hover">
+                                    <div class="desk">
+                                        <h4>Hi There !</h4>
+                                        <p>I love to introduce myself as a hardcore Web Designer.</p>
+                                    </div>
+                                    <div class="s-link">
+                                        <a href="https://www.facebook.com/mrinal.doval" target="_blank"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="team-title">
+
+				    <h5><u>MRINAL DOVAL</u></h5>
+                                <span>Senior Advisor, Co-founder</span><br>
+												<!--				<p style="text-align: justify;font-size: 15px;font-weight: 400;">Industrialist and a Political Thinker. Director of Doval Closures Pvt. Ltd. The first person to believe in the idea which helped us develop the android app. He uses his years of experience to guide us into the right direction and protect us from hindrances.
+
+</p>
+-->            </div>
+                        </div>
+
+                    </div>
+<div class="spacer"></div>
+
+<div id="team2" class="row"  data-13173="top:-100%;opacity:0;" data-13673="top:-100%;opacity:0;" data-13973="top:-100%;opacity:1;" data-14973="top:-100%;opacity:1;">
+
+
+
+                                      <div class="col-md-2 col-sm-2">
+                                          <div class="team-member">
+                                              <div class="team-img">
+
+                                                  <img src="assets\team\nishtha.png" alt="team member" class="img-responsive">
+
+                                              </div>
+                                              <!-- <div class="team-hover">
+                                                  <div class="desk">
+                                                      <h4>Hi There !</h4>
+                                                      <p>I love to introduce myself as a hardcore Web Designer.</p>
+                                                  </div>
+                                                  <div class="s-link">
+                                                      <a href="#"><i class="fa fa-facebook"></i></a>
+                                                      <a href="#"><i class="fa fa-twitter"></i></a>
+                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                  </div>
+                                              </div> -->
+                                          </div>
+                                          <div class="team-title">
+                                              <h5><u>NISHTHA GHOSH</u></h5>
+
+                                              <span>Public Relations</span>
+																							<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    -->      </div>
+
+                                      </div>
+
+																			<div class="col-md-2 col-sm-2">
+																					<div class="team-member">
+																							<div class="team-img">
+																									<img src="assets\team\Pooja.PNG" alt="team member" class="img-responsive">
+																							</div>
+																							<!-- <div class="team-hover">
+																									<div class="desk">
+																											<h4>Hello World</h4>
+																											<p>I love to introduce myself as a hardcore Web Designer.</p>
+																									</div>
+																									<div class="s-link">
+																											<a href="#"><i class="fa fa-facebook"></i></a>
+																											<a href="#"><i class="fa fa-twitter"></i></a>
+																											<a href="#"><i class="fa fa-google-plus"></i></a>
+																									</div>
+																							</div> -->
+																					</div>
+																					<div class="team-title">
+																							<h5><u>POOJA CHHABRA</u></h5>
+																							<span>Data Analyst</span>
+																		<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+																		-->          </div>
+																			</div>
+
+
+                                      <div class="col-md-2 col-sm-2">
+                                          <div class="team-member">
+                                              <div class="team-img">
+                                                  <img src="assets\team\Abhi.PNG" alt="team member" class="img-responsive">
+                                              </div>
+                                              <!-- <div class="team-hover">
+                                                  <div class="desk">
+                                                      <h4>Hello World</h4>
+                                                      <p>I love to introduce myself as a hardcore Web Designer.</p>
+                                                  </div>
+                                                  <div class="s-link">
+                                                      <a href="#"><i class="fa fa-facebook"></i></a>
+                                                      <a href="#"><i class="fa fa-twitter"></i></a>
+                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                  </div>
+                                              </div> -->
+                                          </div>
+                                          <div class="team-title">
+                                              <h5><u>ABHISHEK PUNDIR</u></h5>
+                                              <span>Offsite Developer Intern</span>
+
+<!--
+																							<p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    -->      </div>
+
+                                      </div>
+                                      <div class="col-md-2 col-sm-2">
+                                          <div class="team-member">
+                                              <div class="team-img">
+                                                  <img src="assets\team\Kanika.PNG" alt="team member" class="img-responsive">
+                                              </div>
+                                              <!-- <div class="team-hover">
+                                                  <div class="desk">
+                                                      <h4>I love to design</h4>
+                                                      <p>I love to introduce myself as a hardcore Web Designer.</p>
+                                                  </div>
+                                                  <div class="s-link">
+                                                      <a href="#"><i class="fa fa-facebook"></i></a>
+                                                      <a href="#"><i class="fa fa-twitter"></i></a>
+                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                  </div>
+                                              </div> -->
+                                          </div>
+                                          <div class="team-title">
+                                              <h5><u>KANIKA DAWAR</u></h5>
+                                              <span>Offsite Developer Intern</span>
+
+
+																							<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                    -->      </div>
+
+                                      </div>
+
+                                      <div class="col-md-2 col-sm-2">
+                                          <div class="team-member">
+                                              <div class="team-img">
+                                                  <img src="assets\team\himanshu.PNG" alt="team member" class="img-responsive">
+                                              </div>
+                                              <!-- <div class="team-hover">
+                                                  <div class="desk">
+                                                      <h4>Hello World</h4>
+                                                      <p>I love to introduce myself as a hardcore Web Designer.</p>
+                                                  </div>
+                                                  <div class="s-link">
+                                                      <a href="#"><i class="fa fa-facebook"></i></a>
+                                                      <a href="#"><i class="fa fa-twitter"></i></a>
+                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                  </div>
+                                              </div> -->
+                                          </div>
+                                          <div class="team-title">
+                                              <h5><u>HIMANSHU</u></h5>
+                                              <span>Onsite Developer Intern</span>
+
+											<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+											-->          </div>
+
+                                      </div>
+
+																			<div class="col-md-2 col-sm-2">
+																					<div class="team-member">
+																							<div class="team-img">
+																									<img src="assets\team\Akshita.jpg" alt="team member" class="img-responsive">
+																							</div>
+																							<!-- <div class="team-hover">
+																									<div class="desk">
+																											<h4>Hello World</h4>
+																											<p>I love to introduce myself as a hardcore Web Designer.</p>
+																									</div>
+																									<div class="s-link">
+																											<a href="#"><i class="fa fa-facebook"></i></a>
+																											<a href="#"><i class="fa fa-twitter"></i></a>
+																											<a href="#"><i class="fa fa-google-plus"></i></a>
+																									</div>
+																							</div> -->
+																					</div>
+																					<div class="team-title">
+																							<h5><u>AKSHITA DOVAL</u></h5>
+																							<span>Social Media Intern</span>
+											<!-- <p style="text-align: justify;font-size: 15px;font-weight: 400;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+											-->          </div>
+																			</div>
+
+                                  </div>
+
+                              </div>
+
+
+</div>
+
+
+
+
+<div id="contactUs" style="z-index:105" class="footer" data-14973="top:100%;opacity:1;" data-16298="top:25%;opacity:1;">
+
+  <div class="col-md-4 col-sm-4">
+      <form id="contact" action="" method="post">
+      <h3>Reach Out To Us</h3>
+      <fieldset>
+        <input placeholder="Name" class="input" type="text" tabindex="1" required>
+      </fieldset>
+      <fieldset>
+        <input placeholder="Email" class="input" type="email" tabindex="2" required>
+      </fieldset>
+      <fieldset>
+        <textarea placeholder="Message" class="input" tabindex="5" maxlength="1000" required></textarea>
+      </fieldset>
+      <fieldset>
+        <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Send</button>
+      </fieldset>
+    </form>
+  </div>
+
+
+  <div class="col-md-3 col-sm-3">
+    <div id="footerMobile">
+      <a href="https://play.google.com/store/apps/details?id=com.unhu.unhu" target="_blank"><img src="https://static.wixstatic.com/media/ca769e_206e0f34e67a43069ba8fe7b5213946a~mv2.png/v1/fill/w_147,h_298,al_c,usm_0.66_1.00_0.01/ca769e_206e0f34e67a43069ba8fe7b5213946a~mv2.png"></img></a>
+      <p>Download Unhu</p>
+      <a id="googlPlay"  href="https://play.google.com/store/apps/details?id=com.unhu.unhu" target="_blank"><img src="https://static.wixstatic.com/media/82fcd3_8b62bc67384246a793af9f161e12d5b9~mv2.png/v1/fill/w_195,h_74,al_c,usm_0.66_1.00_0.01/82fcd3_8b62bc67384246a793af9f161e12d5b9~mv2.png"></img></a>
+
+  </div>
+</div>
+<div class="col-md-3 col-sm-3">
+  <div class="address">
+    <div class="row">
+    <h3>Contact</h3>
+    <br>
+    </div>
+    <div class="row">
+		<p id="begin">Pavilion Court, Jaypee Greens Wishtown</p><p>Sector 128, Noida</p>
+		<br>
+    </div>
+    <div class="row">
+    <p id="begin1">Tel - +91-8588031998</p><p>Email - info@unhuapp.com</p>
+    <br>
+    </div>
+    <div class="row s-link">
+      <a href="https://www.facebook.com/unhuapp/?ref=bookmarks" target="_blank"><img src="https://static.wixstatic.com/media/e316f544f9094143b9eac01f1f19e697.png/v1/fill/w_20,h_20,al_c,usm_0.66_1.00_0.01/e316f544f9094143b9eac01f1f19e697.png"></img></a>
+      <a href="https://twitter.com/unhu_app" target="_blank"><img src="https://static.wixstatic.com/media/9c4b521dd2404cd5a05ed6115f3a0dc8.png/v1/fill/w_20,h_20,al_c,usm_0.66_1.00_0.01/9c4b521dd2404cd5a05ed6115f3a0dc8.png"></img></a>
+      <a href="https://www.instagram.com/unhu_app/" target="_blank"><img src="https://static.wixstatic.com/media/8d6893330740455c96d218258a458aa4.png/v1/fill/w_20,h_20,al_c,usm_0.66_1.00_0.01/8d6893330740455c96d218258a458aa4.png"></img></a>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<!-- <div id="headerpanel" style="transform: translate3d(0px, 0px, 0px);opacity:1;">
+
+  <div class="banner">
+    <img src="/assets/images/parent/header-banner.png">
+  </div>
+
+  <div class="centerhead">
+  <a ui-sref="home" href="">
+    <img src="/assets/images/parent/header-center-small.png" id="small">
+    <img src="/assets/images/parent/header-center.png" id="normal">
+  </a>
+  </div>
+  <ul class="left-panel">
+    <li ng-class="{headeractive : $root.state.current.name == 'home.miprofile'}"> <a ui-sref="home.miprofile" title="MI Profile" class="ng-binding" href="/miprofile">★ Register ★</a> </li>
+    <li ng-class="{headeractive : $root.state.current.name == 'home.hospitality'}"><a ui-sref="home.hospitality" title="Hospitality" href="/hospitality">★ Hospitality ★</a></li>
+    <li ng-class="{headeractive : $root.state.current.name.substring(0,11) == 'home.events'}"><a ui-sref="home.events" title="Events" href="/events">★ Events ★</a></li>
+  </ul>
+  <ul class="right-panel">
+    <li><a href="http://sponsors.moodi.org" target="_blank" title="Sponsors">★ Sponsors ★</a></li>
+    <li><a href="https://moodi.org/socialcause" target="_blank" title="Social Cause">★ Social Cause ★</a></li>
+    <li ng-class="{headeractive : $root.state.current.name == 'home.contacts'}" title="Contacts"><a ui-sref="home.contacts" href="/contacts">★ Contact Us ★</a></li>
+</ul></div> -->
+
+
+  <script type="text/javascript" src="skrollr.js"></script>
+  <script type="text/javascript" src="skrollr.menu.min.js"></script>
+  <script type="text/javascript">
+  var s = skrollr.init({
+    constants: {
+      //fill the box for a "duration" of 150% of the viewport (pause for 150%)
+      //adjust for shorter/longer pause
+      box: '150p'
+    }
+  });
+  //The options (second parameter) are all optional. The values shown are the default values.
+skrollr.menu.init(s, {
+  //skrollr will smoothly animate to the new position using `animateTo`.
+  animate: true,
+
+  //The easing function to use.
+  easing: 'sqrt',
+
+  //Multiply your data-[offset] values so they match those set in skrollr.init
+  scale: 3,
+
+  //How long the animation should take in ms.
+  duration: function(currentTop, targetTop) {
+    //By default, the duration is hardcoded at 500ms.
+    return 500;
+
+    //But you could calculate a value based on the current scroll position (`currentTop`) and the target scroll position (`targetTop`).
+    //return Math.abs(currentTop - targetTop) * 10;
+  },
+
+  //If you pass a handleLink function you'll disable `data-menu-top` and `data-menu-offset`.
+  //You are in control where skrollr will scroll to. You get the clicked link as a parameter and are expected to return a number.
+  // handleLink: function(link) {
+  //  return 800;//Hardcoding 400 doesn't make much sense.
+  // },
+
+  //By default skrollr-menu will only react to links whose href attribute contains a hash and nothing more, e.g. `href="#foo"`.
+  //If you enable `complexLinks`, skrollr-menu also reacts to absolute and relative URLs which have a hash part.
+  //The following will all work (if the user is on the correct page):
+  //http://example.com/currentPage/#foo
+  //http://example.com/currentDir/currentPage.html?foo=bar#foo
+  ///?foo=bar#foo
+  complexLinks: false,
+
+  //This event is triggered right before we jump/animate to a new hash.
+  change: function(newHash, newTopPosition) {
+    //Do stuff
+  },
+
+  //Add hash link (e.g. `#foo`) to URL or not.
+  updateUrl: false //defaults to `true`.
+});
+  </script>
+  <script type="text/javascript" src="scipt.js"></script>
+</body>
+
+</html>
