@@ -8,42 +8,172 @@
 <link rel="shortcut icon" href="assets\unhuLogo.ico" type="image/icon">
 <link rel="icon" href="assets\unhuLogo.ico" type="image/icon">
 
-<link rel="stylesheet" href="style2.css">
+<link rel="stylesheet" href="public/css/style2.css">
+
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="font-awesome.min.css">
+<link rel="stylesheet" href="public/css/font-awesome.min.css">
 
-<link href="https://fonts.googleapis.com/css?family=Alegreya|Indie+Flower" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
 
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://use.fontawesome.com/11f5caca4e.js"></script>
 
 <style type="text/css">
-  .btn-primary {
-    transition: all 0.5s ease;
-    color: #fff;
-    background-color: transparent; */
-    border-color: #2e6da4; */
-  }
-  .btn-primary:hover{
-    z-index: 2;
-    -webkit-transition: all 200ms ease-in;
-    
-    -ms-transition: all 200ms ease-in;
-      
-    -moz-transition: all 200ms ease-in;
-    
-    transition: all 200ms ease-in;
-     
-  }
+  .btn-primary
+      {
+        color: #2e6da4;
+        background-color: transparent;
+      }
+
+  .insta
+  {
+    background: transparent ;
+  }    
+ 
 </style>
+
+<!-- jQuery library -->
+<script src="public/scripts/jquery-3.2.1.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+
+<!-- Latest compiled JavaScript -->
+<script src="public/scripts/bootstrap.min.js"></script>
+<script src="public/scripts/11f5caca4e.js"></script>
+
   <title>unhu</title>
 <script type="text/javascript">
+  'use strict';
+
+        var carousel = function carousel(options) {
+
+            var _carousel = {
+
+                paused: false,
+
+                stopped: false,
+
+                options: {
+                    speed: 3000,
+                    acceleration: 5,
+                    reverse: false,
+                    selector: '.c-carousel',
+                    slidesSelector: '.c-carousel__slides',
+                    leftArrowSelector: '.c-carousel__arrow--left',
+                    rightArrowSelector: '.c-carousel__arrow--right'
+                },
+
+                init: function init() {
+                    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                    // Copy options to this.options
+                    for (var prop in options) {
+                        if (!options.hasOwnProperty(prop)) break;
+                        this.options[prop] = options[prop];
+                    }
+
+                    // Cache nodes
+                    var carousel = document.querySelector(options.selector || this.options.selector);
+                    var slides = this._slides = carousel.querySelector(this.options.slidesSelector);
+                    this._leftArrow = carousel.querySelector(this.options.leftArrowSelector);
+                    this._rightArrow = carousel.querySelector(this.options.rightArrowSelector);
+
+                    // Multiply speed value by the number of slides
+                    this.options.speed = this.options.speed * slides.children.length;
+
+                    // Set slides container width
+                    this.width = slides.offsetWidth;
+
+                    // Repeat elements
+                    slides.innerHTML = slides.innerHTML + slides.innerHTML + slides.innerHTML;
+
+                    this._registerEvents();
+                    this._animate();
+                },
+                _registerEvents: function _registerEvents() {
+                    var _this = this;
+
+                    var speed = this.options.speed;
+                    var reverse = this.options.reverse;
+
+                    this._rightArrow.addEventListener('mouseover', function () {
+                        _this.options.speed = speed / _this.options.acceleration;
+                        _this.options.reverse = false;
+                    });
+                    this._rightArrow.addEventListener('mouseleave', function () {
+                        _this.options.speed = speed;
+                        _this.options.reverse = reverse;
+                    });
+                    this._leftArrow.addEventListener('mouseover', function () {
+                        _this.options.speed = speed / _this.options.acceleration;
+                        _this.options.reverse = true;
+                    });
+                    this._leftArrow.addEventListener('mouseleave', function () {
+                        _this.options.speed = speed;
+                        _this.options.reverse = reverse;
+                    });
+
+                    // Pause when cursor is over carousel
+                    this._slides.addEventListener('mouseover', this.pause.bind(this));
+                    this._slides.addEventListener('mouseleave', this.start.bind(this));
+
+                    // Pause when cursor is over carousel
+                    window.addEventListener('resize', function () {
+                        _this.width = _this._slides.offsetWidth;
+                    });
+                },
+                pause: function pause() {
+                    this.paused = true;
+                },
+                start: function start() {
+                    this.paused = false;
+                },
+                stop: function stop() {
+                    this.stopped = true;
+                },
+                _animate: function _animate() {
+                    var _this2 = this;
+
+                    var slides = this._slides;
+                    var oneThird = slides.lastElementChild.getBoundingClientRect().right / 3;
+                    var framesCount = 0;
+                    var step = 0;
+                    var posX = 0;
+
+                    var animate = function animate() {
+                        if (!_this2.paused) {
+
+                            framesCount = _this2.options.speed * 60 / 1000;
+                            step = oneThird / framesCount;
+
+                            posX += _this2.options.reverse ? step : -step;
+
+                            slides.style.transform = 'translateX(' + posX + 'px)';
+
+                            if (_this2.options.reverse) {
+                                if (posX >= _this2.width - oneThird) {
+                                    posX = _this2.width - oneThird * 2;
+                                }
+                            } else {
+                                if (Math.abs(posX) >= oneThird * 2) {
+                                    posX = -oneThird;
+                                }
+                            }
+                        }
+                        !_this2.stopped && requestAnimationFrame(animate);
+                    };
+                    animate();
+                }
+            };
+
+            _carousel.init(options);
+
+            return _carousel;
+        };
+
+        window.onload = function () {
+            return carousel({
+                selector: '.c-carousel'
+            });
+        };
 jQuery(document).ready(function($) {
   // Get the modal
 jQuery(document).ready(function($) {
@@ -61,14 +191,14 @@ jQuery(document).ready(function($) {
                             //console.log('Hi');
                             jQuery('<div/>', {
                             id: 'img-'+i,
-                            class: 'col-sm-3 col-md-3',
+                            class: 'col-sm-3 col-md-3 col-xs-6',
                             }).appendTo('#insta-row1');
                           }
                           else
                           {
                             jQuery('<div/>', {
                             id: 'img-'+i,
-                            class: 'col-sm-3 col-md-3',
+                            class: 'col-sm-3 col-md-3 col-xs-6',
                             }).appendTo('#insta-row2');
                           }
 
@@ -102,7 +232,7 @@ jQuery(document).ready(function($) {
                               'id': 'myImage-'+i,
                               'alt': 'insta-pic-alt',
                               'class': 'insta-pic',
-                              'title': '',
+                              'title': 'JSFiddle logo',
                               'width': 300,
                               'height': 300
                             }).appendTo('#img-'+i);
@@ -148,7 +278,12 @@ jQuery(document).ready(function($) {
                               document.getElementById("myModal").style.display = "none";
                           }
                         }
-                            }
+
+
+
+
+
+                          }
 
         });
 
@@ -209,13 +344,15 @@ $(window).scroll(function () {
 <!--Parallax ends-->
 <div class="header" style="z-index: 10">
 <div id="header-sroll">
-<ul>
-		<li id="aoutLi"><a href="#aboutSec" data-menu-top="350">About Us</a></li>
-		<li id="featureLi"><a href="#featureSec" data-menu-top="372p">Features</a></li>
-		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
-		<li id="teamLi"><a href="#team" data-menu-top="1980p">Our Team</a></li>
-		<li id="contactLi"><a href="#contactUs" data-menu-top="15598">Contact</a></li>
-	</ul>
+  
+    <ul>
+    		
+        <li id="aoutLi"><a href="#aboutSec" data-menu-top="350p">About Us</a></li>
+    		<li id="featureLi"><a href="/feat" data-menu-top="610p">Features</a></li>
+    		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
+    		<li id="teamLi"><a href="#team" data-menu-top="2290p">Our Team</a></li>
+    		<li id="contactLi"><a href="#contactUs" data-menu-top="15598">Contact</a></li>
+    </ul>
 
 </div>
 </div>
@@ -224,52 +361,52 @@ $(window).scroll(function () {
 <!-- Train transition -->
 <!-- toytrain.png is transformed over the train_tracks.png -->
 
-  <div id="featureSec" style="z-index:6;" class="train-wrap" skrollr-tag="" data-2100="opacity:0" data-2250="opacity:1;" data-top-top="position:fixed; top:0%" data-9250="top:0%; opacity:1" data-10000="top:-100%;opacity:0;" style="opacity: 0; top: 0%; position: fixed;">
-      <img skrollr-tag="" src="assets\designchanges phase1\Train-Tracks.png" class="track skrollable skrollable-before" data-2200="opacity:0;" data-2400="opacity:1;" data-2500="opacity:1;" style="opacity: 0;">
+  <div id="featureSec" class="train-wrap" skrollr-tag="" data-3600="opacity:0" data-3750="opacity:1;" data-top-top="position:fixed; top:0%" data-10750="top:0%; opacity:1" data-11500="top:-100%;opacity:0;" style="opacity: 0; top: 0%; position: fixed;">
+      <img skrollr-tag="" src="assets\designchanges phase1\Train-Tracks.png" class="track skrollable skrollable-before" data-3700="opacity:0;" data-3900="opacity:1;" data-4000="opacity:1;" style="opacity: 0;">
 
-      <img skrollr-tag="" src="assets\designchanges phase1\toytrain.png" style="width: 180px; height: 70px;" class="train skrollable skrollable-before" data-2500="top: 65px; left: Calc(100% - 0px);" data-3520="top: 65px; left: calc(50% - 170px); transform: rotate(0deg);" data-3750="transform: rotate(-90deg); top: 120.5px; left: calc(50% - 210px)" data-4000="transform: rotate(-180deg); top: 148px; left: calc(50% - 130px)" data-4500="left: Calc(50% - 15px); transform: rotate(-180deg);" data-4550="transform: rotate(-90deg); left: calc(50% - -30px); top:204px" data-5000="transform: rotate(0deg); left: calc(50% - -10px); top:225px" data-5500="top: 225px; left: calc(50% - 190px); transform: rotate(0deg);" data-5750="transform: rotate(-90deg); top: 285px; left: calc(50% - 210px)" data-6000="transform: rotate(-180deg); left: calc(50% - 125px); top:310px" data-6500="transform: rotate(-180deg); left: calc(50% - 10px); top:310px" data-6750="transform: rotate(-90deg); left: calc(50% - -10px); top:365px" data-7000="transform: rotate(0deg); left: calc(50% - -15px); top:390px" data-7250="transform: rotate(0deg); left: calc(50% - 180px); top:390px" data-7500="transform: rotate(-90deg); left: calc(50% - 210px); top:445px" data-7750="transform: rotate(-180deg); left: calc(50% - 120px); top:470px" data-8250="transform: rotate(-180deg); left: calc(50% - 25px); top:470px" data-8500="transform: rotate(-90deg); left: calc(50% - -25px); top:527.5px" data-8750="transform: rotate(0deg); left: calc(50% - 25px); top:550px" data-9250="transform: rotate(0deg); left: calc(-10% - 0px); top:550px" style="top: 78px; left: calc(100% - 0px); transform: rotate(0deg);">
+      <img skrollr-tag="" src="assets\designchanges phase1\toytrain.png" style="width: 180px; height: 70px;" class="train skrollable skrollable-before" data-4000="top: 65px; left: Calc(100% - 0px);" data-5020="top: 65px; left: calc(50% - 170px); transform: rotate(0deg);" data-5250="transform: rotate(-90deg); top: 120.5px; left: calc(50% - 210px)" data-5500="transform: rotate(-180deg); top: 148px; left: calc(50% - 130px)" data-6000="left: Calc(50% - 15px); transform: rotate(-180deg);" data-6050="transform: rotate(-90deg); left: calc(50% - -30px); top:204px" data-6500="transform: rotate(0deg); left: calc(50% - -10px); top:225px" data-7000="top: 225px; left: calc(50% - 190px); transform: rotate(0deg);" data-7250="transform: rotate(-90deg); top: 285px; left: calc(50% - 210px)" data-7500="transform: rotate(-180deg); left: calc(50% - 125px); top:310px" data-8000="transform: rotate(-180deg); left: calc(50% - 10px); top:310px" data-8250="transform: rotate(-90deg); left: calc(50% - -10px); top:365px" data-8500="transform: rotate(0deg); left: calc(50% - -15px); top:390px" data-8750="transform: rotate(0deg); left: calc(50% - 180px); top:390px" data-9000="transform: rotate(-90deg); left: calc(50% - 210px); top:445px" data-9250="transform: rotate(-180deg); left: calc(50% - 120px); top:470px" data-9750="transform: rotate(-180deg); left: calc(50% - 25px); top:470px" data-10000="transform: rotate(-90deg); left: calc(50% - -25px); top:527.5px" data-10250="transform: rotate(0deg); left: calc(50% - 25px); top:550px" data-10750="transform: rotate(0deg); left: calc(-10% - 20px); top:550px" style="top: 78px; left: calc(100% - 0px); transform: rotate(0deg);">
 
 
-                      <img src="assets\designchanges phase1\Signboard--Discover-Interests.png" skrollr-tag="" class="dot dot1 skrollable skrollable-before" data-3250="opacity:0; top:120px; left:calc(50% - 180px);" data-3500="opacity:1; top:120px; left:calc(50% - 180px);" style="opacity: 0; top: 120px; left: calc(50% - 180px);">
-                      <img src="assets\designchanges phase1\Signboard---videos-meet-content.png" skrollr-tag="" class="dot dot2 skrollable skrollable-before" data-4250="opacity:0; top:205px; left:calc(50% - -95px);" data-4500="opacity:1; top:205px; left:calc(50% - -95px);" style="opacity: 0; top: 205px; left: calc(50% - -95px);">
-                      <img src="assets\designchanges phase1\Signboard---shoot-creativity.png" skrollr-tag="" class="dot dot3 skrollable skrollable-before" data-5250="opacity:0; top: 280px; left:calc(50% - 270px);" data-5500="opacity:1; top: 280px; left:calc(50% - 270px);" style="opacity: 0; top: 280px; left: calc(50% - 270px);">
-                      <img src="assets\designchanges phase1\Signboard---express-yourself.png" skrollr-tag="" class="dot dot4 skrollable skrollable-before" data-6250="opacity:0; top: 365px; left:calc(50% + 5px);" data-6500="opacity:1; top: 365px; left:calc(50% + 5px);" style="opacity: 0; top: 365px; left: calc(50% + 5px);">
-                      <img src="assets\designchanges phase1\signboard---own-blog.png" skrollr-tag="" class="dot dot5 skrollable skrollable-before" data-7250="opacity:0; top: 445px; left:calc(50% - 360px);" data-7500="opacity:1; top: 445px; left:calc(50% - 360px);" style="opacity: 0; top: 445px; left: calc(50% - 360px);">
-                      <img src="assets\designchanges phase1\Signbord---share-connect.png" skrollr-tag="" class="dot dot6 skrollable skrollable-before" data-8250="opacity:0; top: 520px; left:calc(50% - 80px);" data-8500="opacity:1; top: 520px; left:calc(50% - 80px);" style="opacity: 0; top: 520px; left: calc(50% - 80px);">
+                      <img src="assets\designchanges phase1\Signboard--Discover-Interests.png" skrollr-tag="" class="dot dot1 skrollable skrollable-before" data-4750="opacity:0; top:120px; left:calc(50% - 180px);" data-5000="opacity:1; top:120px; left:calc(50% - 180px);" style="opacity: 0; top: 120px; left: calc(50% - 180px);">
+                      <img src="assets\designchanges phase1\Signboard---videos-meet-content.png" skrollr-tag="" class="dot dot2 skrollable skrollable-before" data-5750="opacity:0; top:205px; left:calc(50% - -95px);" data-6000="opacity:1; top:205px; left:calc(50% - -95px);" style="opacity: 0; top: 205px; left: calc(50% - -95px);">
+                      <img src="assets\designchanges phase1\Signboard---shoot-creativity.png" skrollr-tag="" class="dot dot3 skrollable skrollable-before" data-6750="opacity:0; top: 280px; left:calc(50% - 270px);" data-7000="opacity:1; top: 280px; left:calc(50% - 270px);" style="opacity: 0; top: 280px; left: calc(50% - 270px);">
+                      <img src="assets\designchanges phase1\Signboard---express-yourself.png" skrollr-tag="" class="dot dot4 skrollable skrollable-before" data-8750="opacity:0; top: 365px; left:calc(50% + 5px);" data-9500="opacity:1; top: 365px; left:calc(50% + 5px);" style="opacity: 0; top: 365px; left: calc(50% + 5px);">
+                      <img src="assets\designchanges phase1\signboard---own-blog.png" skrollr-tag="" class="dot dot5 skrollable skrollable-before" data-8750="opacity:0; top: 445px; left:calc(50% - 360px);" data-9000="opacity:1; top: 445px; left:calc(50% - 360px);" style="opacity: 0; top: 445px; left: calc(50% - 360px);">
+                      <img src="assets\designchanges phase1\Signbord---share-connect.png" skrollr-tag="" class="dot dot6 skrollable skrollable-before" data-9750="opacity:0; top: 520px; left:calc(50% - 80px);" data-10000="opacity:1; top: 520px; left:calc(50% - 80px);" style="opacity: 0; top: 520px; left: calc(50% - 80px);">
 
-                      <div class="text tl1 skrollable skrollable-before" skrollr-tag="" data-3250="opacity:0; top:80px; left:calc(50% - 450px);" data-3500="opacity:1;" data-8750="opacity:1; left:calc(50% - 450px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 80px; left: calc(50% - 450px);">
+                      <div class="text tl1 skrollable skrollable-before" skrollr-tag="" data-4750="opacity:0; top:80px; left:calc(50% - 450px);" data-5000="opacity:1;" data-10250="opacity:1; left:calc(50% - 450px);" data-10750="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 80px; left: calc(50% - 450px);">
                           <p class="num">Discover Interest</p>
                           <p class="train-text">Magnify your interests by browsing through</p>
                           <p class="train-text">the best content discovery platform.</p>
                       </div>
 
-                      <div class="text tr1 skrollable skrollable-before" skrollr-tag="" data-4250="opacity:0; top:135px; left:calc(50% - -200px);" data-4500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 135px; left: calc(50% - -200px);">
+                      <div class="text tr1 skrollable skrollable-before" skrollr-tag="" data-5750="opacity:0; top:135px; left:calc(50% - -200px);" data-6000="opacity:1;" data-10250="opacity:1; left:calc(50% - -200px);" data-10750="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 135px; left: calc(50% - -200px);">
                           <p class="num">Videos meet Content</p>
                           <p class="train-text">A wide variety of over 35,000+ interactive videos</p>
                           <p class="train-text">available with written content, for the ones</p>
 													<p class="train-text">who want to dig deeper</p>
                       </div>
 
-                      <div class="text tl2 skrollable skrollable-before" skrollr-tag="" data-5250="opacity:0; top:240px; left:calc(50% - 470px);" data-5500="opacity:1;" data-8750="opacity:1; left:calc(50% - 470px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 240px; left: calc(50% - 470px);">
+                      <div class="text tl2 skrollable skrollable-before" skrollr-tag="" data-6750="opacity:0; top:240px; left:calc(50% - 470px);" data-7000="opacity:1;" data-10250="opacity:1; left:calc(50% - 470px);" data-10750="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 240px; left: calc(50% - 470px);">
                           <p class="num">Shoot Creativity</p>
 													<p class="train-text">Show your creative skills within 30 seconds.</p>
                           <p class="train-text">All you need is 30 seconds to fame</p>
                       </div>
 
-                      <div class="text tr2 skrollable skrollable-before" skrollr-tag="" data-6250="opacity:0; top:310px; left:calc(50% - -200px);" data-6500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 310px; left: calc(50% - -200px);">
+                      <div class="text tr2 skrollable skrollable-before" skrollr-tag="" data-7750="opacity:0; top:310px; left:calc(50% - -200px);" data-8000="opacity:1;" data-10250="opacity:1; left:calc(50% - -200px);" data-10750="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 310px; left: calc(50% - -200px);">
                           <p class="num">Express Yourself</p>
                           <p class="train-text">Something interesting happened around you?</p>
 													<p class="train-text">Don’t hesitate to share it with the world</p>
                       </div>
 
-                      <div class="text tl3 skrollable skrollable-before" skrollr-tag="" data-7250="opacity:0; top:405px; left:calc(50% - 490px);" data-7500="opacity:1" ;="" data-8750="opacity:1; left:calc(50% - 490px);" data-9250="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 405px; left: calc(50% - 490px);">
+                      <div class="text tl3 skrollable skrollable-before" skrollr-tag="" data-8750="opacity:0; top:405px; left:calc(50% - 490px);" data-9000="opacity:1" ;="" data-10250="opacity:1; left:calc(50% - 490px);" data-10750="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 405px; left: calc(50% - 490px);">
                           <p class="num">Own Blog</p>
                           <p class="train-text">Micro blogging at its best, allows everyone to</p>
                           <p class="train-text">write, customise and share their thoughts with</p>
 													<p class="train-text">the world in the easiest possible way</p>
                       </div>
 
-                      <div class="text tr3 skrollable skrollable-before" skrollr-tag="" data-8250="opacity:0; top:470px; left:calc(50% - -200px);" data-8500="opacity:1;" data-8750="opacity:1; left:calc(50% - -200px);" data-9250="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 470px; left: calc(50% - -200px);">
+                      <div class="text tr3 skrollable skrollable-before" skrollr-tag="" data-9750="opacity:0; top:470px; left:calc(50% - -200px);" data-10000="opacity:1;" data-10250="opacity:1; left:calc(50% - -200px);" data-10750="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 470px; left: calc(50% - -200px);">
                           <p class="num">Share Connect</p>
 													<p class="train-text">Family, friends, business and love, each play a</p>
                           <p class="train-text">different role in your life. Let’s keep each bond special.</p>
@@ -283,9 +420,33 @@ $(window).scroll(function () {
 <!-- train section ends -->
 
 <!--About us -->
-	<div id="aboutSec" style="z-index:6" data-0="transform:translate(0,100%);opacity:1;" data-100p="transform:translate(0,0%)" data-200p="opacity:1;" data-250p="opacity:1;" data-300p="opacity:1;" data-301p="opacity:0;" data-_box-100p="" data-_box-100p="transform:translate(0,0%);opacity:1;" data-_box-124p="transform:translate(0,0%);opacity:1;" data-_box-301p="transform:translate(0,0%);opacity:0;" data-_box-302p="transform:translate(0,-100%);opacity:0;">
-		<div class="box" data-100p="opacity:1;" data-_box-150p="opacity:1;"  data-250p="opacity:1;" data-274p="opacity:1;" data-300p="opacity:1;" data-351p="opacity:0;">
-      <div data-100p="opacity:0;"  data-150p="opacity:1;" data-150p="opacity:1;"  data-210p="opacity: 1" data-274p="opacity:0;" data-275p="opacity:0;">
+<div id="carousel" data-0p="transform:translate(0,100%);opacity:1;" data-100p="transform:translate(0,0%);opacity:1;" data-200p="transform:translate(0,0%);opacity:1;" data-300p="transform:translate(0,-100%);opacity:0;">
+    <div>
+      <!-- Carousel -->
+        <div class="c-carousel">
+          <div class="c-carousel__arrow c-carousel__arrow--left"><span class="glyphicon glyphicon-chevron-left carousel-gly"></span></div>
+          <div class="c-carousel__arrow c-carousel__arrow--right"> <span class="glyphicon glyphicon-chevron-right carousel-gly"></span></div>
+          <ul class="c-carousel__slides">
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-201156.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-201528.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-201647.png"/></li>
+              <li><img class="carousel-img" src="folder/Screenshot_20171225-201855.png"/></li>
+          </ul>
+        </div>
+    </div>
+    <div class="container text-center" style="margin-top: 40px">
+        <p style="color: #000000; font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it&nbsp<span style="font-size: 50px">"</span> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp - Kshitij Doval</p>
+    </div>  
+    <!--<div class="contain&nbsp&nbsper text-center" style="margin-top: 40px">
+        <p style="color: #ffffff;font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it&nbsp<span style="font-size: 50px">"</span><br/> - Kshitij Doval</p>
+    </div>  -->
+</div>
+	<div id="aboutSec" style="z-index:6" data-0="transform:translate(0,100%);opacity:1;" data-200p="transform:translate(0,100%)" data-300p="transform:translate(0,0%)" data-400p="opacity:1;" data-450p="opacity:1;" data-500p="opacity:1;" data-501p="opacity:0;" data-_box-300p="" data-_box-300p="transform:translate(0,0%);opacity:1;" data-_box-324p="transform:translate(0,0%);opacity:1;" data-_box-501p="transform:translate(0,0%);opacity:0;" data-_box-502p="transform:translate(0,-100%);opacity:0;">
+		<div class="box" data-300p="opacity:1;" data-_box-350p="opacity:1;"  data-450p="opacity:1;" data-474p="opacity:1;" data-500p="opacity:1;" data-551p="opacity:0;">
+      <div data-300p="opacity:0;"  data-350p="opacity:1;" data-350p="opacity:1;"  data-410p="opacity: 1" data-474p="opacity:0;" data-475p="opacity:0;">
 
 				<!-- <div class="col-md-6 col-sm-6">
 					<div class="row">
@@ -305,29 +466,29 @@ $(window).scroll(function () {
 				</div>
 			</div> -->
 
-
-
-				<div class="row">
-          <div class="col-sm-6 col-md-6"></div><div class="col-sm-6 col-md-6" id="about"><h1>About us</h1></div></div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6"></div><div class="col-sm-6 col-md-6" id="about"><h1>About us</h1></div></div>
         <div class="row"><div class="col-sm-6 col-md-6">
-					<iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
-				<div id="aboutPic" class="col-sm-6 col-md-6" style="padding: 30px 40px;text-align:justify">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
+          <div id="aboutPic" class="col-sm-6 col-md-6" style="padding: 30px 40px;text-align:justify">
 
 
 
 
-        	<p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
-font-family: 'Alegreya', serif;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+            <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
+            font-family: 'Alegreya', serif;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
 
-					<p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
-font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+            <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;
+            font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
 
-				</div>
+          </div>
         </div>
+
+
     </div>
 	</div>
 </div>
-<div class="train-reveal" style="z-index:7" data-0="transform:translate(0,100%);opacity:0;" data-249p="transform:translate(0,110%);opacity:0;" data-250p="transform:translate(0,100%);opacity:1;" data-300p="transform:translate(0,0%);opacity:1;" data-380p="transform:translate(0,-100%);opacity:1;" data-380p="transform:translate(0,-100%);opacity:0;" data-381p="transform:translate(0,-150%);opacity:0;">
+<div class="train-reveal" style="z-index:7" data-0="transform:translate(0,100%);opacity:0;" data-349p="transform:translate(0,110%);opacity:0;" data-449p="transform:translate(0,110%);opacity:0;" data-450p="transform:translate(0,100%);opacity:1;" data-500p="transform:translate(0,0%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:0;" data-581p="transform:translate(0,-150%);opacity:0;">
 	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
 </div>
 
@@ -354,11 +515,7 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 
 <!-- Mission ends -->
 
-<div id="instaReveal" style="z-index:5;"class="train-reveal" data-0="transform:translate(0,100%);opacity:0;" data-9345="transform:translate(0,120%);opacity:1;" data-9700="transform:translate(0,100%);opacity:1;" data-10075="transform:translate(0,0%);opacity:1;" data-10450="transform:translate(0,-100%);opacity:1;" data-10825="transform:translate(0,-150%);opacity:1;">
-	<div class="title"><img src="assets\designchanges phase1\Parallax-1.png"></div>
-</div>
-
-<div id="insta" class="insta" data-0="top:100%;opacity:0;" data-9499="top:100%;opacity:0;" data-9500="top:100%;opacity:1;" data-9750="top:0%;opacity:1;" data-10050="top:0%;opacity:1;"  data-10340="top:0%;opacity:1;" data-10350="top:0%;opacity:0;" data-10352="top:-150%;opacity:0;">
+<div id="insta" class="insta" data-0="top:100%;opacity:1;" data-10899="top:100%;opacity:1;" data-11200="top:0%;opacity:1;" data-11300="top:0%;opacity:1;" data-11650="top:0%;opacity:1;"  data-11840="top:0%;opacity:1;" data-11852="top:0%;opacity:1;">
   <div class="row" id="insta-row1" style="margin-right: 0px; margin-left: 0px;">
 
  </div><br/>
@@ -376,7 +533,7 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
    <div class="col-sm-3 col-md-3" style="padding-right: 0px;">
 
    </div>
- </div><br/><br/><br />
+ </div><br/><br/>
 
 
  <div class="row" style="margin-right: 0px; margin-left: 0px;">
@@ -386,7 +543,7 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
    </div>
    <div class="col-sm-2 col-md-2">
 
-     <a id="button" class="btn btn-primary btn-outline btn-lg" target="_blank" href="https://www.instagram.com/unhu_app/">View more <span class="glyphicon glyphicon-chevron-right"></span></a>
+     <a id="button" class="btn btn-primary btn-outline btn-lg" target="_blank" href="https://www.instagram.com/unhu_app/">View more <span class="glyphicon glyphicon-chevron-right glyphicon-quote"></span></a>
 
    </div>
 
@@ -399,81 +556,84 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
   <div id="caption"></div>
 </div>
 
+<div id="instaReveal" class="train-reveal" data-0="transform:translate(0,200%);opacity:0;" data-10845="transform:translate(0,200%);opacity:1;" data-11200="transform:translate(0,300%);opacity:1;" data-11575="transform:translate(0,0%);opacity:1;" data-11950="transform:translate(0,-100%);opacity:1;" data-12325="transform:translate(0,-150%);opacity:1;">
+	<div class="title"><img src="assets\designchanges phase1\Parallax-1.png"></div>
+</div>
 
-<div class="testimonial-section skrollable skrollable-between" style="z-index:5;" skrollr-tag="" data-0="top:100%;opacity:0;" data-9974="top:100%;opacity:0;" data-9975="top:100%;opacity:1;" data-10350="top:0%;opacity:1;" data-top-top="position:fixed; top:0%" data-12873="top:0%" data-13023="top:-75%" data-13073="top:-100%;opacity:0;" style="position: fixed; top: 0%; opacity: 0;">
-		<img src="assets\integrationoftheballonsection\1.png" skrollr-tag="" class="balloon1 skrollable skrollable-before" data-9875="top:100%; left:100px" data-11773="top:-120%;left:100px" style="top: 100%; left: 100px;">
-		<img src="assets\integrationoftheballonsection\2.png" skrollr-tag="" class="balloon2 skrollable skrollable-before" data-11273="top:100%; right:100px;" data-11873="top:-90%" style="top: 100%; right: 100px;">
-		<img src="assets\integrationoftheballonsection\3.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-11323="top:100%; left:200px" data-12723="top:-100%" style="top: 100%; left: 200px;">
-		<img src="assets\integrationoftheballonsection\4.png" skrollr-tag="" class="balloon4 skrollable skrollable-before" data-11873="top:100%; right:100px;" data-12873="top:-90%" style="top: 100%; right: 100px;">
-		<img src="assets\integrationoftheballonsection\5.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-12323="top:100%; left:200px" data-12423="top:100%;"data-13073="top:-100%" style="top: 100%; left: 200px;">
-		<img src="assets\integrationoftheballonsection\cloud3.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-11073="top:100%" data-12073="top:-90%;" style="top: 100%;">
-		<img src="assets\integrationoftheballonsection\cloud2.png" skrollr-tag="" class="cloud2 skrollable skrollable-before" data-9975="top:120%;left:60%;" data-12073="top:-80%;" style="top: 120%; left: 60%;">
-		<img src="assets\integrationoftheballonsection\Cloud1.png" skrollr-tag="" class="cloud1 skrollable skrollable-before" data-11573="top:150%;left:60%;" data-12573="top:-80%;" style="top: 150%; left: 60%;">
-		<img src="assets\integrationoftheballonsection\cloud5.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-12123="top:100%" data-12323="top:60%" data-13073="top:-70%;" style="top: 100%;">
+<div class="testimonial-section skrollable skrollable-between" style="z-index:5;" skrollr-tag="" data-0="top:100%;opacity:0;" data-11574="top:100%;opacity:0;" data-11575="top:100%;opacity:1;" data-11950="top:0%;opacity:1;" data-top-top="position:fixed; top:1%" data-14373="top:0%" data-14523="top:-75%" data-14573="top:-100%;opacity:1;" style="position: fixed; top: 0%; opacity: 0;">
+		<img src="assets\integrationoftheballonsection\1.png" skrollr-tag="" class="balloon1 skrollable skrollable-before" data-12275="top:100%; left:100px" data-13273="top:-120%;left:100px" style="top: 100%; left: 100px;">
+		<img src="assets\integrationoftheballonsection\2.png" skrollr-tag="" class="balloon2 skrollable skrollable-before" data-12733="top:100%; right:100px;" data-13333="top:-90%" style="top: 100%; right: 100px;">
+		<img src="assets\integrationoftheballonsection\3.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-12823="top:100%; left:200px" data-14223="top:-100%" style="top: 100%; left: 200px;">
+		<img src="assets\integrationoftheballonsection\4.png" skrollr-tag="" class="balloon4 skrollable skrollable-before" data-13373="top:100%; right:100px;" data-14373="top:-90%" style="top: 100%; right: 100px;">
+		<img src="assets\integrationoftheballonsection\5.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-13823="top:100%; left:200px" data-13923="top:100%;"data-14573="top:-100%" style="top: 100%; left: 200px;">
+		<img src="assets\integrationoftheballonsection\cloud3.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-12573="top:100%" data-13573="top:-90%;" style="top: 100%;">
+		<img src="assets\integrationoftheballonsection\cloud2.png" skrollr-tag="" class="cloud2 skrollable skrollable-before" data-11175="top:120%;left:60%;" data-13273="top:-80%;" style="top: 120%; left: 60%;">
+		<img src="assets\integrationoftheballonsection\Cloud1.png" skrollr-tag="" class="cloud1 skrollable skrollable-before" data-13073="top:150%;left:60%;" data-14073="top:-80%;" style="top: 150%; left: 60%;">
+		<img src="assets\integrationoftheballonsection\cloud5.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-13623="top:100%" data-13823="top:60%" data-14573="top:-70%;" style="top: 100%;">
 
-		<div class="test skrollable skrollable-before" skrollr-tag="" data-9975="top:100%; left:400px" data-11975="top:-120%" style="top: 100%; left: 400px;">
-        <p class="quote">"A powerful Machine Learning technology used in the news feed &nbsp;&nbsp;"</p>
+		<div class="test skrollable skrollable-before" skrollr-tag="" data-12345="top:100%; left:400px" data-13343="top:-120%" style="top: 100%; left: 400px;">
+        <p class="quote">A powerful Machine Learning technology used in the news feed &nbsp;&nbsp;</p>
         <p class="quote">to show you the content of your choice in the language of your choice.&nbsp;</p>
     </div>
 
-    <div class="test right skrollable skrollable-before" skrollr-tag="" data-11315="top:100%; right:350px;" data-11915="top:-90%" style="top: 100%; right: 350px;">
+    <div class="test right skrollable skrollable-before" skrollr-tag="" data-12775="top:100%; right:350px;" data-13375="top:-90%" style="top: 100%; right: 350px;">
         <p class="quote">The best content from your favourite genre &nbsp;&nbsp;</p>
         <p class="quote">is now just 2 taps away!&nbsp;&nbsp;</p>
         <p class="quote"></p>
         <p class="author">&nbsp;&nbsp;</p>
     </div>
 
-	<div class="test skrollable skrollable-before" skrollr-tag="" data-11405="top:100%; left:450px" data-12805="top:-100%" style="top: 100%; left: 450px;">
+	<div class="test skrollable skrollable-before" skrollr-tag="" data-12905="top:100%; left:450px" data-14305="top:-100%" style="top: 100%; left: 450px;">
         <p class="quote">Leave an impact in the world by sharing what's in your mind</p>
         <p class="quote">&nbsp;&nbsp;</p>
         <p class="quote">&nbsp;&nbsp;</p>
         <p class="author">&nbsp;&nbsp;</p>
     </div>
 
-	<div class="test right skrollable skrollable-before" skrollr-tag="" data-11975="top:100%; right:400px" data-12975="top:-90%" style="top: 100%; right: 400px;">
+	<div class="test right skrollable skrollable-before" skrollr-tag="" data-13475="top:100%; right:400px" data-14475="top:-90%" style="top: 100%; right: 400px;">
         <p class="quote">Have you met Guru?  &nbsp;&nbsp;</p>
         <p class="quote">You're going to love chatting with him.</p>
         <p class="quote">Feel free to ask him literally anything &nbsp;&nbsp;</p>
     </div>
 
-		<div class="test skrollable skrollable-before" skrollr-tag="" data-12465="top:100%; left:440px" data-13115="top:-100%" style="top: 100%; left: 440px;">
+		<div class="test skrollable skrollable-before" skrollr-tag="" data-13965="top:100%; left:440px" data-14615="top:-100%" style="top: 100%; left: 440px;">
         <p class="quote">India is a land of some spectacular writers and photographers!</p>
         <p class="quote"> Join Unhu and let's form our creative community
 &nbsp;</p>
-    </div>
 
 </div>
+</div>
 
-<div  id="instaExit" style="z-index:7;" class="train-reveal" data-12673="top:108%;opacity:1" data-12674="top:105%;opacity:1" data-12873="top:55%" data-13073="top:5%;opacity:1" data-13448="top:-70%" data-13573="top:-95%;opacity:1" data-13948="top:-170%;opacity:0">
-    <div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
+<div  id="instaExit" style="z-index:7;" class="train-reveal" data-14173="top:108%;opacity:1" data-14174="top:105%;opacity:1" data-14373="top:55%" data-14573="top:5%;opacity:1" data-14948="top:-70%" data-15073="top:-95%;opacity:1" data-15448="top:-170%;opacity:0">
+	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
 </div>
 <!-- our team section scroll:9250 to 12000 -->
 
 
-<div id="team" style="z-index:6;" data-12673="top:100%" data-12873="top:50%" data-13073="top:0%" data-14973="top:-75%" data-15473="top:-100%" data-16298="top:-175%">
+<div id="team" style="z-index:6;" data-14173="top:100%" data-14373="top:50%" data-14573="top:0%" data-16473="top:-75%" data-16973="top:-100%" data-17798="top:-175%">
 <div class="spacer"></div>
   <div class="container">
     <div class="heading-title text-center">
         <h3 class="text-uppercase" style="text-align: center;">Our Team </h3>
     </div>
 
-                    <div class="row"  data-12223="top:100%;opacity:0;" data-12273="top:0%;opacity:0;" data-13173="top:0%;opacity:1;">
+                    <div id="team1" class="row"  data-13723="top:100%;opacity:0;" data-13773="top:0%;opacity:0;" data-14673="top:0%;opacity:1;">
  											<div class="col-md-3 col-sm-3">
 													<div class="team-member">
 															<div class="team-img">
 																	<img src="assets\team\kshitij.PNG" alt="team member" class="img-responsive">
 															</div>
-															<!-- <div class="team-hover">
-																	<div class="desk">
+															<div class="team-hover">
+																	<!-- <div class="desk">
 																			<h4>Hello World</h4>
 																			<p>I love to introduce myself as a hardcore Web Designer.</p>
-																	</div>
+																	</div> -->
 																	<div class="s-link">
 																			<a href="https://www.facebook.com/kshitij.doval"><i class="fa fa-facebook"></i></a>
 																			<a href="https://twitter.com/Doval31"><i class="fa fa-twitter"></i></a>
 																			<a href="https://www.linkedin.com/in/kshitij-doval-63109499/"><i class="fa fa-linkedin"></i></a>
 																	</div>
-															</div> -->
+															</div>
 													</div>
 													<div class="team-title">
 														<h5><u>KSHITIJ DOVAL</u></h5>
@@ -487,17 +647,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 															<div class="team-img">
 																	<img src="assets\team\Hitesh.PNG" alt="team member" class="img-responsive">
 															</div>
-															<!-- <div class="team-hover">
-																	<div class="desk">
+															<div class="team-hover">
+																	<!-- <div class="desk">
 																			<h4>I love to design</h4>
 																			<p>I love to introduce myself as a hardcore Web Designer.</p>
-																	</div>
+																	</div> -->
 																	<div class="s-link">
-																			<a href="#"><i class="fa fa-facebook"></i></a>
-																			<a href="#"><i class="fa fa-twitter"></i></a>
-																			<a href="#"><i class="fa fa-google-plus"></i></a>
+																			<a href="https://www.facebook.com/hitesh.ganesun" target="_blank"><i class="fa fa-facebook"></i></a>
+																			<a href="https://twitter.com/hitesh1030" target="_blank"><i class="fa fa-twitter"></i></a>
+																			<a href="https://www.linkedin.com/in/hitesh-ganesun-b1a104102/" target="_blank"><i class="fa fa-linkedin"></i></a>
 																	</div>
-															</div> -->
+															</div>
 													</div>
 													<div class="team-title">
 														<h5><u>HITESH</u></h5>
@@ -512,21 +672,21 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 											                                <div class="team-img">
 											                                    <img src="assets\team\Kartik.png" alt="team member" class="img-responsive">
 											                                </div>
-											                                <!-- <div class="team-hover">
-											                                    <div class="desk">
+											                                <div class="team-hover">
+											                                    <!-- <div class="desk">
 											                                        <h4>Hello World</h4>
 											                                        <p>I love to introduce myself as a hardcore Web Designer.</p>
-											                                    </div>
+											                                    </div> -->
 											                                    <div class="s-link">
-											                                        <a href="#"><i class="fa fa-facebook"></i></a>
-											                                        <a href="#"><i class="fa fa-twitter"></i></a>
-											                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+											                                        <a href="https://www.facebook.com/kartik.singh.16" target="_blank"><i class="fa fa-facebook"></i></a>
+											                                        <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+											                                        <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
 											                                    </div>
-											                                </div> -->
+											                                </div>
 											                            </div>
 											                            <div class="team-title">
 															    <h5><u>KARTIK SINGH</u></h5>
-											                                <span>Chief Design Partner</span><br>
+											                                <span>Chief Design Partner, Co-founder</span><br>
 																									<!--		<p style="text-align: justify;font-size: 15px;font-weight: 400;">Worked as Senior Executive in Grofers. The chief architect behind building the design infrastructure of the company. He is the Da Vinci of Unhu
 											</p>									-->
 											                            </div>
@@ -539,17 +699,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                                 <div class="team-img">
                                     <img src="assets/team/mrinal.PNG" alt="team member" class="img-responsive">
                                 </div>
-                                <!-- <div class="team-hover">
-                                    <div class="desk">
+                                <div class="team-hover">
+                                    <!-- <div class="desk">
                                         <h4>Hi There !</h4>
                                         <p>I love to introduce myself as a hardcore Web Designer.</p>
-                                    </div>
+                                    </div> -->
                                     <div class="s-link">
                                         <a href="https://www.facebook.com/mrinal.doval" target="_blank"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                                        <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                                        <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                             <div class="team-title">
 
@@ -562,9 +722,9 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                         </div>
 
                     </div>
-<div class="spacer1"></div>
 
-<div id="team2" class="row"  data-13173="top:-100%;opacity:0;" data-13673="top:-100%;opacity:0;" data-13973="top:-100%;opacity:1;" data-14973="top:-100%;opacity:1;">
+<div class="spacer1"></div>
+<div id="team2" class="row"  data-14673="top:-100%;opacity:0;" data-15173="top:-100%;opacity:0;" data-15473="top:-100%;opacity:1;" data-16473="top:-100%;opacity:1;">
 
 
 
@@ -575,17 +735,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                                                   <img src="assets\team\nishtha.png" alt="team member" class="img-responsive">
 
                                               </div>
-                                              <!-- <div class="team-hover">
-                                                  <div class="desk">
+                                              <div class="team-hover">
+                                                  <!-- <div class="desk">
                                                       <h4>Hi There !</h4>
                                                       <p>I love to introduce myself as a hardcore Web Designer.</p>
-                                                  </div>
+                                                  </div> -->
                                                   <div class="s-link">
-                                                      <a href="#"><i class="fa fa-facebook"></i></a>
-                                                      <a href="#"><i class="fa fa-twitter"></i></a>
-                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                      <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                      <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                      <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
                                                   </div>
-                                              </div> -->
+                                              </div>
                                           </div>
                                           <div class="team-title">
                                               <h5><u>NISHTHA GHOSH</u></h5>
@@ -601,17 +761,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 																							<div class="team-img">
 																									<img src="assets\team\Pooja.PNG" alt="team member" class="img-responsive">
 																							</div>
-																							<!-- <div class="team-hover">
-																									<div class="desk">
+																							<div class="team-hover">
+																									<!-- <div class="desk">
 																											<h4>Hello World</h4>
 																											<p>I love to introduce myself as a hardcore Web Designer.</p>
-																									</div>
+																									</div> -->
 																									<div class="s-link">
-																											<a href="#"><i class="fa fa-facebook"></i></a>
-																											<a href="#"><i class="fa fa-twitter"></i></a>
-																											<a href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                    <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
 																									</div>
-																							</div> -->
+																							</div>
 																					</div>
 																					<div class="team-title">
 																							<h5><u>POOJA CHHABRA</u></h5>
@@ -626,17 +786,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                                               <div class="team-img">
                                                   <img src="assets\team\Abhi.PNG" alt="team member" class="img-responsive">
                                               </div>
-                                              <!-- <div class="team-hover">
-                                                  <div class="desk">
+                                              <div class="team-hover">
+                                                  <!-- <div class="desk">
                                                       <h4>Hello World</h4>
                                                       <p>I love to introduce myself as a hardcore Web Designer.</p>
-                                                  </div>
+                                                  </div> -->
                                                   <div class="s-link">
-                                                      <a href="#"><i class="fa fa-facebook"></i></a>
-                                                      <a href="#"><i class="fa fa-twitter"></i></a>
-                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a href="https://www.facebook.com/profile.php?id=100009161962120" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                    <a href="https://www.linkedin.com/in/abhishek-pundir/" target="_blank"><i class="fa fa-linkedin"></i></a>
                                                   </div>
-                                              </div> -->
+                                              </div>
                                           </div>
                                           <div class="team-title">
                                               <h5><u>ABHISHEK PUNDIR</u></h5>
@@ -652,17 +812,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                                               <div class="team-img">
                                                   <img src="assets\team\Kanika.PNG" alt="team member" class="img-responsive">
                                               </div>
-                                              <!-- <div class="team-hover">
-                                                  <div class="desk">
+                                              <div class="team-hover">
+                                                  <!-- <div class="desk">
                                                       <h4>I love to design</h4>
                                                       <p>I love to introduce myself as a hardcore Web Designer.</p>
-                                                  </div>
+                                                  </div> -->
                                                   <div class="s-link">
-                                                      <a href="#"><i class="fa fa-facebook"></i></a>
-                                                      <a href="#"><i class="fa fa-twitter"></i></a>
-                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a href="https://www.facebook.com/kanika.dawar1" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                    <a href="https://www.linkedin.com/in/kanika-dawar-1904a0105/" target="_blank"><i class="fa fa-linkedin"></i></a>
                                                   </div>
-                                              </div> -->
+                                              </div>
                                           </div>
                                           <div class="team-title">
                                               <h5><u>KANIKA DAWAR</u></h5>
@@ -679,17 +839,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
                                               <div class="team-img">
                                                   <img src="assets\team\himanshu.PNG" alt="team member" class="img-responsive">
                                               </div>
-                                              <!-- <div class="team-hover">
-                                                  <div class="desk">
+                                              <div class="team-hover">
+                                                  <!-- <div class="desk">
                                                       <h4>Hello World</h4>
                                                       <p>I love to introduce myself as a hardcore Web Designer.</p>
-                                                  </div>
+                                                  </div> -->
                                                   <div class="s-link">
-                                                      <a href="#"><i class="fa fa-facebook"></i></a>
-                                                      <a href="#"><i class="fa fa-twitter"></i></a>
-                                                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                    <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
                                                   </div>
-                                              </div> -->
+                                              </div>
                                           </div>
                                           <div class="team-title">
                                               <h5><u>HIMANSHU</u></h5>
@@ -705,17 +865,17 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 																							<div class="team-img">
 																									<img src="assets\team\Akshita.jpg" alt="team member" class="img-responsive">
 																							</div>
-																							<!-- <div class="team-hover">
-																									<div class="desk">
+																							<div class="team-hover">
+																									<!-- <div class="desk">
 																											<h4>Hello World</h4>
 																											<p>I love to introduce myself as a hardcore Web Designer.</p>
-																									</div>
+																									</div> -->
 																									<div class="s-link">
-																											<a href="#"><i class="fa fa-facebook"></i></a>
-																											<a href="#"><i class="fa fa-twitter"></i></a>
-																											<a href="#"><i class="fa fa-google-plus"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a><br>
+                                                      <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
 																									</div>
-																							</div> -->
+																							</div>
 																					</div>
 																					<div class="team-title">
 																							<h5><u>AKSHITA DOVAL</u></h5>
@@ -734,7 +894,7 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 
 
 
-<div id="contactUs" style="z-index:105" class="footer" data-14973="top:100%;opacity:1;" data-16298="top:25%;opacity:1;">
+<div id="contactUs" style="z-index:105" class="footer" data-16473="top:100%;opacity:1;" data-17798="top:25%;opacity:1;">
 
   <div class="col-md-4 col-sm-4">
       <form id="contact" action="" method="post">
@@ -812,8 +972,8 @@ font-family: 'Alegreya', serif;">Being a social networking platform, Unhu-app, a
 </ul></div> -->
 
 
-  <script type="text/javascript" src="skrollr.js"></script>
-  <script type="text/javascript" src="skrollr.menu.min.js"></script>
+  <script type="text/javascript" src="public/scripts/skrollr.js"></script>
+  <script type="text/javascript" src="public/scripts/skrollr.menu.min.js"></script>
   <script type="text/javascript">
   var s = skrollr.init({
     constants: {
@@ -865,7 +1025,7 @@ skrollr.menu.init(s, {
   updateUrl: false //defaults to `true`.
 });
   </script>
-  <script type="text/javascript" src="scipt.js"></script>
+  
 </body>
 
 </html>
