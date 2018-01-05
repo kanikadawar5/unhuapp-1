@@ -719,6 +719,40 @@ footer {
 #headerpanel{display:none;text-align:center;font-size:.75em;color:#fff;z-index:1000;transition:2s;transform:translate3d(0,-150%,0)} */
 
 
+@media screen and (max-width: 640px) {
+
+.header {
+    display : none;
+background-image:url('/assets/fonts/headerImg.svg');
+}
+#header-sroll {
+display : none;
+width:100%;
+}
+#header-sroll li {
+    display : none;
+    width:100%;
+    float:none;
+}
+
+#header-sroll img {
+  display : none;
+}
+#header-sroll ul {
+  display : none;
+}
+#header-sroll.small {
+    display : none;
+}
+#header-sroll.small ul{
+    display : none;
+}
+#header-sroll.small li{
+  display : none;
+}
+}
+
+
 .header {
     height:80px;
     display: inline;
@@ -728,8 +762,6 @@ footer {
  .header ul {
   text-align: right;
   }
-
-
 
  .header li {
   display:inline;
