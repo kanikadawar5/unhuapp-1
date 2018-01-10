@@ -11,19 +11,169 @@
 <link rel="stylesheet" href="style2.css">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
+ <style type="text/css">
+   .btn-primary
+       {
+         color: #2e6da4;
+         background-color: transparent;
+      }
+ 
+   .insta
+   {
+     background: transparent ;
+   }
+	</style>
 
 <link href="https://fonts.googleapis.com/css?family=Alegreya|Indie+Flower" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- jQuery library -->
+	<script src="public/scripts/jquery-3.2.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
+	<script src="public/scripts/bootstrap.min.js"></script>
+ <script src="public/scripts/11f5caca4e.js"></script>
+ 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://use.fontawesome.com/11f5caca4e.js"></script>
   <title>unhu</title>
 <script type="text/javascript">
+	'use strict';
+ 
+         var carousel = function carousel(options) {
+ 
+             var _carousel = {
+ 
+                 paused: false,
+ 
+                 stopped: false,
+ 
+                 options: {
+                     speed: 3000,
+                     acceleration: 5,
+                     reverse: false,
+                     selector: '.c-carousel',
+                     slidesSelector: '.c-carousel__slides',
+                     leftArrowSelector: '.c-carousel__arrow--left',
+                     rightArrowSelector: '.c-carousel__arrow--right'
+                 },
+ 
+                 init: function init() {
+                     var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+ 
+                     // Copy options to this.options
+                     for (var prop in options) {
+                         if (!options.hasOwnProperty(prop)) break;
+                         this.options[prop] = options[prop];
+                     }
+ 
+                     // Cache nodes
+                     var carousel = document.querySelector(options.selector || this.options.selector);
+                     var slides = this._slides = carousel.querySelector(this.options.slidesSelector);
+                     this._leftArrow = carousel.querySelector(this.options.leftArrowSelector);
+                     this._rightArrow = carousel.querySelector(this.options.rightArrowSelector);
+ 
+                     // Multiply speed value by the number of slides
+                     this.options.speed = this.options.speed * slides.children.length;
+ 
+                     // Set slides container width
+                     this.width = slides.offsetWidth;
+ 
+                     // Repeat elements
+                     slides.innerHTML = slides.innerHTML + slides.innerHTML + slides.innerHTML;
+ 
+                     this._registerEvents();
+                     this._animate();
+                 },
+                 _registerEvents: function _registerEvents() {
+                     var _this = this;
+ 
+                     var speed = this.options.speed;
+                     var reverse = this.options.reverse;
+ 
+                     this._rightArrow.addEventListener('mouseover', function () {
+                         _this.options.speed = speed / _this.options.acceleration;
+                         _this.options.reverse = false;
+                     });
+                     this._rightArrow.addEventListener('mouseleave', function () {
+                         _this.options.speed = speed;
+                         _this.options.reverse = reverse;
+                     });
+                     this._leftArrow.addEventListener('mouseover', function () {
+                         _this.options.speed = speed / _this.options.acceleration;
+                         _this.options.reverse = true;
+                     });
+                     this._leftArrow.addEventListener('mouseleave', function () {
+                         _this.options.speed = speed;
+                         _this.options.reverse = reverse;
+                     });
+ 
+                     // Pause when cursor is over carousel
+                     this._slides.addEventListener('mouseover', this.pause.bind(this));
+                     this._slides.addEventListener('mouseleave', this.start.bind(this));
+ 
+                     // Pause when cursor is over carousel
+                     window.addEventListener('resize', function () {
+                         _this.width = _this._slides.offsetWidth;
+                     });
+                 },
+                 pause: function pause() {
+                     this.paused = true;
+                 },
+                 start: function start() {
+                     this.paused = false;
+                 },
+                 stop: function stop() {
+                     this.stopped = true;
+                 },
+                 _animate: function _animate() {
+                     var _this2 = this;
+ 
+                     var slides = this._slides;
+                     var oneThird = slides.lastElementChild.getBoundingClientRect().right / 3;
+                     var framesCount = 0;
+                     var step = 0;
+                     var posX = 0;
+ 
+                     var animate = function animate() {
+                         if (!_this2.paused) {
+ 
+                             framesCount = _this2.options.speed * 60 / 1000;
+                             step = oneThird / framesCount;
+ 
+                             posX += _this2.options.reverse ? step : -step;
+ 
+                             slides.style.transform = 'translateX(' + posX + 'px)';
+ 
+                             if (_this2.options.reverse) {
+                                 if (posX >= _this2.width - oneThird) {
+                                     posX = _this2.width - oneThird * 2;
+                                 }
+                             } else {
+                                 if (Math.abs(posX) >= oneThird * 2) {
+                                     posX = -oneThird;
+                                 }
+                             }
+                         }
+                         !_this2.stopped && requestAnimationFrame(animate);
+                     };
+                     animate();
+                 }
+             };
+ 
+             _carousel.init(options);
+ 
+             return _carousel;
+         };
+ 
+         window.onload = function () {
+             return carousel({
+                 selector: '.c-carousel'
+             });
+         };
 jQuery(document).ready(function($) {
   // Get the modal
 jQuery(document).ready(function($) {
@@ -41,14 +191,14 @@ jQuery(document).ready(function($) {
                             //console.log('Hi');
                             jQuery('<div/>', {
                             id: 'img-'+i,
-                            class: 'col-sm-3 col-md-3',
+                            class: 'col-sm-3 col-md-3 col-xs-6',
                             }).appendTo('#insta-row1');
                           }
                           else
                           {
                             jQuery('<div/>', {
                             id: 'img-'+i,
-                            class: 'col-sm-3 col-md-3',
+                            class: 'col-sm-3 col-md-3 col-xs-6',
                             }).appendTo('#insta-row2');
                           }
 
@@ -223,8 +373,9 @@ $(window).scroll(function () {
   </div>
 <!--Parallax ends-->
 <div class="header" style="z-index: 10">
+	<img onmouseover="bigImg(this)" src="assets\fonts\headerImg.png" alt="headerImg" style="height:20px; width:20px; padding-left: 3px; padding-top:3px;"><a href="#trial"></img>
 <div id="header-sroll">
-<ul>
+<ul id="trial">
 		<li id="aoutLi"><a href="#aboutSec" data-menu-top="350p">About Us</a></li>
 		<li id="featureLi"><a href="#featureSec" data-menu-top="610p">Features</a></li>
 		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
@@ -329,7 +480,29 @@ $(window).scroll(function () {
 
 <!--About us -->
 <div id="carousel" data-0p="transform:translate(0,100%);opacity:1;" data-100p="transform:translate(0,0%);opacity:1;" data-200p="transform:translate(0,0%);opacity:1;" data-300p="transform:translate(0,-100%);opacity:0;">
-  <img src="https://img.buzzfeed.com/buzzfeed-static/static/2016-01/7/11/enhanced/webdr03/enhanced-buzz-32618-1452185446-0.jpg" width="100%" height="100%"alt="red color">
+   <div>
+       <!-- Carousel -->
+         <div class="c-carousel">
+           <div class="c-carousel__arrow c-carousel__arrow--left"><span class="glyphicon glyphicon-chevron-left carousel-gly"></span></div>
+           <div class="c-carousel__arrow c-carousel__arrow--right"> <span class="glyphicon glyphicon-chevron-right carousel-gly"></span></div>
+           <ul class="c-carousel__slides">
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201156.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201528.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201647.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201855.png"/></li>
+           </ul>
+         </div>
+     </div>
+     <div class="container text-center" style="margin-top: 40px">
+         <p style="color: #000000; font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it &nbsp; <span style="font-size: 50px">"</span> ` ` ` ` ` ` `                       - Kshitij Doval</p>
+     </div>
+     <!--<div class="contain&nbsp&nbsper text-center" style="margin-top: 40px">
+         <p style="color: #ffffff;font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%; text-align: justify; text-justify: inter-word;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it&nbsp; <span style="font-size: 50px">"</span><br/> - Kshitij Doval</p>
+     </div>  -->
+	<img src="https://img.buzzfeed.com/buzzfeed-static/static/2016-01/7/11/enhanced/webdr03/enhanced-buzz-32618-1452185446-0.jpg" width="100%" height="100%"alt="red color">
 </div>
 	<div id="aboutSec" style="z-index:5;" data-0="transform:translate(0,100%);opacity:1;" data-200p="transform:translate(0,100%)" data-250p="transform:translate(0,0%);opacity:1;"  data-500p="opacity:1;transform:translate(0,-100%)" data-501p="opacity:0;" data-_box-300p="" data-_box-300p="transform:translate(0,0%);opacity:1;" data-_box-224p="transform:translate(0,0%);opacity:1;" data-_box-501p="transform:translate(0,-100%);opacity:0;" data-_box-502p="transform:translate(0,-100%);opacity:0;">
 		<div class="box" data-300p="opacity:1;" data-_box-350p="opacity:1;"  data-450p="opacity:1;" data-474p="opacity:1;" data-500p="opacity:1;" data-551p="opacity:0;">
@@ -344,8 +517,10 @@ $(window).scroll(function () {
 
 
 
-            <p class="col-sm-12 col-md-12" style="font-family: 'Indie Flower', cursive;
-            font-family: 'Alegreya', serif;text-align:justify; font-size: 2vw;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.<br/><br/>Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+             <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive; text-align: justify; text-justify: inter-word; font-family: 'Alegreya', serif; font-size: 22px;">Unhu is the way an individual views the world around, with values of kindness, respect, humility, consideration towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+ 
+            <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;text-align: justify; text-justify: inter-word; font-family: 'Alegreya', serif; font-size: 22px;">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
+  font-family: 'Alegreya', serif;text-align:justify; font-size: 2vw;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.<br/><br/>Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
           </div>
         </div>
 
@@ -408,7 +583,7 @@ $(window).scroll(function () {
    </div>
    <div class="col-sm-2 col-md-2">
 
-     <a id="button" class="btn btn-primary btn-outline btn-lg" target="_blank" href="https://www.instagram.com/unhu_app/">View more <span class="glyphicon glyphicon-chevron-right"></span></a>
+     <a id="button" class="btn btn-primary btn-outline btn-lg" target="_blank" href="https://www.instagram.com/unhu_app/">View more <span class="glyphicon glyphicon-chevron-right glyphicon-quote"></span></a>
 
    </div>
 
@@ -551,7 +726,7 @@ $(window).scroll(function () {
 											                            </div>
 											                            <div class="team-title">
 															    <h5><u>KARTIK SINGH</u></h5>
-											                                <span>Chief Design Partner</span><br>
+											                                <span>Chief Design Officer(CDO), Co-Founder</span><br>
 																									<!--		<p style="text-align: justify;font-size: 15px;font-weight: 400;">Worked as Senior Executive in Grofers. The chief architect behind building the design infrastructure of the company. He is the Da Vinci of Unhu
 											</p>									-->
 											                            </div>
@@ -562,7 +737,7 @@ $(window).scroll(function () {
                         <div class="col-md-3 col-sm-3">
                             <div class="team-member">
                                 <div class="team-img">
-                                    <img src="assets/team/mrinal.png" alt="team member" class="img-responsive">
+                                    <img src="assets/team/mrinal.PNG" alt="team member" class="img-responsive">
                                 </div>
                                 <div class="team-hover">
                                     <!-- <div class="desk">
@@ -836,9 +1011,9 @@ $(window).scroll(function () {
 </ul></div> -->
 
 
-  <script type="text/javascript" src="skrollr.js"></script>
-  <script type="text/javascript" src="skrollr.menu.min.js"></script>
-  <script type="text/javascript">
+  <script type="text/javascript" src="public/scripts/skrollr.js"></script>
+<script type="text/javascript" src="public/scripts/skrollr.menu.min.js"></script>
+<script type="text/javascript">
   var s = skrollr.init({
     constants: {
       //fill the box for a "duration" of 150% of the viewport (pause for 150%)
