@@ -8,172 +8,172 @@
 <link rel="shortcut icon" href="assets\unhuLogo.ico" type="image/icon">
 <link rel="icon" href="assets\unhuLogo.ico" type="image/icon">
 
-<link rel="stylesheet" href="public/css/style2.css">
-
+<link rel="stylesheet" href="style2.css">
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="public/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css">
-
-
-<style type="text/css">
-  .btn-primary
-      {
-        color: #2e6da4;
-        background-color: transparent;
+ <style type="text/css">
+   .btn-primary
+       {
+         color: #2e6da4;
+         background-color: transparent;
       }
+ 
+   .insta
+   {
+     background: transparent ;
+   }
+	</style>
 
-  .insta
-  {
-    background: transparent ;
-  }
-
-</style>
+<link href="https://fonts.googleapis.com/css?family=Alegreya|Indie+Flower" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <!-- jQuery library -->
-<script src="public/scripts/jquery-3.2.1.min.js"></script>
+	<script src="public/scripts/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
-
-<!-- Latest compiled JavaScript -->
-<script src="public/scripts/bootstrap.min.js"></script>
-<script src="public/scripts/11f5caca4e.js"></script>
-
+	<script src="public/scripts/bootstrap.min.js"></script>
+ <script src="public/scripts/11f5caca4e.js"></script>
+ 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/11f5caca4e.js"></script>
   <title>unhu</title>
 <script type="text/javascript">
-  'use strict';
-
-        var carousel = function carousel(options) {
-
-            var _carousel = {
-
-                paused: false,
-
-                stopped: false,
-
-                options: {
-                    speed: 3000,
-                    acceleration: 5,
-                    reverse: false,
-                    selector: '.c-carousel',
-                    slidesSelector: '.c-carousel__slides',
-                    leftArrowSelector: '.c-carousel__arrow--left',
-                    rightArrowSelector: '.c-carousel__arrow--right'
-                },
-
-                init: function init() {
-                    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-                    // Copy options to this.options
-                    for (var prop in options) {
-                        if (!options.hasOwnProperty(prop)) break;
-                        this.options[prop] = options[prop];
-                    }
-
-                    // Cache nodes
-                    var carousel = document.querySelector(options.selector || this.options.selector);
-                    var slides = this._slides = carousel.querySelector(this.options.slidesSelector);
-                    this._leftArrow = carousel.querySelector(this.options.leftArrowSelector);
-                    this._rightArrow = carousel.querySelector(this.options.rightArrowSelector);
-
-                    // Multiply speed value by the number of slides
-                    this.options.speed = this.options.speed * slides.children.length;
-
-                    // Set slides container width
-                    this.width = slides.offsetWidth;
-
-                    // Repeat elements
-                    slides.innerHTML = slides.innerHTML + slides.innerHTML + slides.innerHTML;
-
-                    this._registerEvents();
-                    this._animate();
-                },
-                _registerEvents: function _registerEvents() {
-                    var _this = this;
-
-                    var speed = this.options.speed;
-                    var reverse = this.options.reverse;
-
-                    this._rightArrow.addEventListener('mouseover', function () {
-                        _this.options.speed = speed / _this.options.acceleration;
-                        _this.options.reverse = false;
-                    });
-                    this._rightArrow.addEventListener('mouseleave', function () {
-                        _this.options.speed = speed;
-                        _this.options.reverse = reverse;
-                    });
-                    this._leftArrow.addEventListener('mouseover', function () {
-                        _this.options.speed = speed / _this.options.acceleration;
-                        _this.options.reverse = true;
-                    });
-                    this._leftArrow.addEventListener('mouseleave', function () {
-                        _this.options.speed = speed;
-                        _this.options.reverse = reverse;
-                    });
-
-                    // Pause when cursor is over carousel
-                    this._slides.addEventListener('mouseover', this.pause.bind(this));
-                    this._slides.addEventListener('mouseleave', this.start.bind(this));
-
-                    // Pause when cursor is over carousel
-                    window.addEventListener('resize', function () {
-                        _this.width = _this._slides.offsetWidth;
-                    });
-                },
-                pause: function pause() {
-                    this.paused = true;
-                },
-                start: function start() {
-                    this.paused = false;
-                },
-                stop: function stop() {
-                    this.stopped = true;
-                },
-                _animate: function _animate() {
-                    var _this2 = this;
-
-                    var slides = this._slides;
-                    var oneThird = slides.lastElementChild.getBoundingClientRect().right / 3;
-                    var framesCount = 0;
-                    var step = 0;
-                    var posX = 0;
-
-                    var animate = function animate() {
-                        if (!_this2.paused) {
-
-                            framesCount = _this2.options.speed * 60 / 1000;
-                            step = oneThird / framesCount;
-
-                            posX += _this2.options.reverse ? step : -step;
-
-                            slides.style.transform = 'translateX(' + posX + 'px)';
-
-                            if (_this2.options.reverse) {
-                                if (posX >= _this2.width - oneThird) {
-                                    posX = _this2.width - oneThird * 2;
-                                }
-                            } else {
-                                if (Math.abs(posX) >= oneThird * 2) {
-                                    posX = -oneThird;
-                                }
-                            }
-                        }
-                        !_this2.stopped && requestAnimationFrame(animate);
-                    };
-                    animate();
-                }
-            };
-
-            _carousel.init(options);
-
-            return _carousel;
-        };
-
-        window.onload = function () {
-            return carousel({
-                selector: '.c-carousel'
-            });
-        };
+	'use strict';
+ 
+         var carousel = function carousel(options) {
+ 
+             var _carousel = {
+ 
+                 paused: false,
+ 
+                 stopped: false,
+ 
+                 options: {
+                     speed: 3000,
+                     acceleration: 5,
+                     reverse: false,
+                     selector: '.c-carousel',
+                     slidesSelector: '.c-carousel__slides',
+                     leftArrowSelector: '.c-carousel__arrow--left',
+                     rightArrowSelector: '.c-carousel__arrow--right'
+                 },
+ 
+                 init: function init() {
+                     var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+ 
+                     // Copy options to this.options
+                     for (var prop in options) {
+                         if (!options.hasOwnProperty(prop)) break;
+                         this.options[prop] = options[prop];
+                     }
+ 
+                     // Cache nodes
+                     var carousel = document.querySelector(options.selector || this.options.selector);
+                     var slides = this._slides = carousel.querySelector(this.options.slidesSelector);
+                     this._leftArrow = carousel.querySelector(this.options.leftArrowSelector);
+                     this._rightArrow = carousel.querySelector(this.options.rightArrowSelector);
+ 
+                     // Multiply speed value by the number of slides
+                     this.options.speed = this.options.speed * slides.children.length;
+ 
+                     // Set slides container width
+                     this.width = slides.offsetWidth;
+ 
+                     // Repeat elements
+                     slides.innerHTML = slides.innerHTML + slides.innerHTML + slides.innerHTML;
+ 
+                     this._registerEvents();
+                     this._animate();
+                 },
+                 _registerEvents: function _registerEvents() {
+                     var _this = this;
+ 
+                     var speed = this.options.speed;
+                     var reverse = this.options.reverse;
+ 
+                     this._rightArrow.addEventListener('mouseover', function () {
+                         _this.options.speed = speed / _this.options.acceleration;
+                         _this.options.reverse = false;
+                     });
+                     this._rightArrow.addEventListener('mouseleave', function () {
+                         _this.options.speed = speed;
+                         _this.options.reverse = reverse;
+                     });
+                     this._leftArrow.addEventListener('mouseover', function () {
+                         _this.options.speed = speed / _this.options.acceleration;
+                         _this.options.reverse = true;
+                     });
+                     this._leftArrow.addEventListener('mouseleave', function () {
+                         _this.options.speed = speed;
+                         _this.options.reverse = reverse;
+                     });
+ 
+                     // Pause when cursor is over carousel
+                     this._slides.addEventListener('mouseover', this.pause.bind(this));
+                     this._slides.addEventListener('mouseleave', this.start.bind(this));
+ 
+                     // Pause when cursor is over carousel
+                     window.addEventListener('resize', function () {
+                         _this.width = _this._slides.offsetWidth;
+                     });
+                 },
+                 pause: function pause() {
+                     this.paused = true;
+                 },
+                 start: function start() {
+                     this.paused = false;
+                 },
+                 stop: function stop() {
+                     this.stopped = true;
+                 },
+                 _animate: function _animate() {
+                     var _this2 = this;
+ 
+                     var slides = this._slides;
+                     var oneThird = slides.lastElementChild.getBoundingClientRect().right / 3;
+                     var framesCount = 0;
+                     var step = 0;
+                     var posX = 0;
+ 
+                     var animate = function animate() {
+                         if (!_this2.paused) {
+ 
+                             framesCount = _this2.options.speed * 60 / 1000;
+                             step = oneThird / framesCount;
+ 
+                             posX += _this2.options.reverse ? step : -step;
+ 
+                             slides.style.transform = 'translateX(' + posX + 'px)';
+ 
+                             if (_this2.options.reverse) {
+                                 if (posX >= _this2.width - oneThird) {
+                                     posX = _this2.width - oneThird * 2;
+                                 }
+                             } else {
+                                 if (Math.abs(posX) >= oneThird * 2) {
+                                     posX = -oneThird;
+                                 }
+                             }
+                         }
+                         !_this2.stopped && requestAnimationFrame(animate);
+                     };
+                     animate();
+                 }
+             };
+ 
+             _carousel.init(options);
+ 
+             return _carousel;
+         };
+ 
+         window.onload = function () {
+             return carousel({
+                 selector: '.c-carousel'
+             });
+         };
 jQuery(document).ready(function($) {
   // Get the modal
 jQuery(document).ready(function($) {
@@ -308,7 +308,37 @@ $(window).scroll(function () {
 </head>
 
 <body>
+  <!-- <header>
+    <div class="mobilenav" style="transform: translate3d(0px, 0px, 0px);">
+        <div id="menu-toggle" ng-click="$ctrl.opensidenav()" class="">
+        <div id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div id="cross">
+          <span></span>
+          <span></span>
+        </div>
+        </div>
+        <p class="header-title">
+           Mood Indigo
+        </p>
+    </div>
 
+    <div id="sidenav" class="">
+      <div id="panel">
+      <a ui-sref="home" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name == 'home'}" href="" class="headeractive"><div class="linkcontainer">Home</div></a>
+      <a ui-sref="home.miprofile" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name == 'home.miprofile'}" href="/miprofile"><div class="linkcontainer ng-binding">Register</div></a>
+      <a ui-sref="home.events" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name.substring(0,11) == 'home.events'}" href="/events"><div class="linkcontainer">Events</div></a>
+      <a ui-sref="home.faqs" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name == 'home.faqs'}" href="/faqs"><div class="linkcontainer">FAQs</div></a>
+      <a ui-sref="home.hospitality" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name == 'home.hospitality'}" href="/hospitality"><div class="linkcontainer">Hospitality</div></a>
+      <a ui-sref="home.contacts" ng-click="$ctrl.opensidenav()" ng-class="{headeractive : $root.state.current.name == 'home.contacts'}" href="/contacts"><div class="linkcontainer">Contact Us</div></a>
+      <a href="https://moodi.org/socialcause" ng-click="$ctrl.opensidenav()" target="_blank"><div class="linkcontainer">Social Cause</div></a>
+      <a href="http://sponsors.moodi.org" ng-click="$ctrl.opensidenav()" target="_blank"><div class="linkcontainer">Sponsors</div></a>
+      </div>
+    </div>
+  </header> -->
 
 	<!-- All transitions are based on scrollbar postion,
 				data-0 -> scroll position at 0px from top
@@ -343,27 +373,55 @@ $(window).scroll(function () {
   </div>
 <!--Parallax ends-->
 <div class="header" style="z-index: 10">
-<img onmouseover="bigImg(this)" src="assets\fonts\headerImg.png" alt="headerImg" style="height:20px; width:20px; padding-left: 3px; padding-top:3px;"><a href="#trial"></img>
+	<img onmouseover="bigImg(this)" src="assets\fonts\headerImg.png" alt="headerImg" style="height:20px; width:20px; padding-left: 3px; padding-top:3px;"><a href="#trial"></img>
 <div id="header-sroll">
-
-    <ul id="trial">
-
-        <li id="aoutLi"><a href="#aboutSec" data-menu-top="350p">About Us</a></li>
-    		<li id="featureLi"><a href="/feat" data-menu-top="610p">Features</a></li>
-    		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
-    		<li id="teamLi"><a href="#team" data-menu-top="2290p">Our Team</a></li>
-    		<li id="contactLi"><a href="#contactUs" data-menu-top="15598">Contact</a></li>
-    </ul>
-
+<ul id="trial">
+		<li id="aoutLi"><a href="#aboutSec" data-menu-top="350p">About Us</a></li>
+		<li id="featureLi"><a href="#featureSec" data-menu-top="610p">Features</a></li>
+		<li id="homeLi"><a href="#home" data-menu-top="0p"><img src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
+		<li id="teamLi"><a href="#team" data-menu-top="2290p">Our Team</a></li>
+		<li id="contactLi"><a href="#contactUs" data-menu-top="15598">Contact</a></li>
+	</ul>
 </div>
+<nav role="navigation">
+  <div id="menuToggle">
+    <!--
+    A fake / hidden checkbox is used as click reciever,
+    so you can use the :checked selector on it.
+    -->
+    <input type="checkbox" />
+
+    <!--
+    Some spans to act as a hamburger.
+
+    They are acting like a real hamburger,
+    not that McDonalds stuff.
+    -->
+    <span></span>
+    <span></span>
+    <span></span>
+
+    <!--
+    Too bad the menu has to be inside of the button
+    but hey, it's pure CSS magic.
+    -->
+    <ul id="menu">
+      <li><a href="#aboutSec" data-menu-top="350p">About Us</a></li>
+      <li><a href="#featureSec" data-menu-top="610p">Features</a></li>
+      <li><a href="#home" data-menu-top="0p"><img style="width: 100px; height:auto;"src="https://static.wixstatic.com/media/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png/v1/fill/w_322,h_140,al_c,usm_0.66_1.00_0.01/ca769e_66bdd78f2c834d118e35d5e0cd605193~mv2.png"></img></a></li>
+      <li><a href="#team" data-menu-top="2290p">Our Team</a></li>
+      <li><a href="#contactUs" data-menu-top="15598">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 </div>
 
 
 <!-- Train transition -->
 <!-- toytrain.png is transformed over the train_tracks.png -->
 
-  <div id="featureSec" class="train-wrap" skrollr-tag="" data-3600="opacity:0" data-3750="opacity:1;" data-top-top="position:fixed; top:0%" data-10750="top:0%; opacity:1" data-11500="top:-100%;opacity:0;" style="opacity: 0; top: 0%; position: fixed;">
-      <img skrollr-tag="" src="assets\designchanges phase1\Train-Tracks.png" class="track skrollable skrollable-before" data-3700="opacity:0;" data-3900="opacity:1;" data-4000="opacity:1;" style="opacity: 0;">
+  <div id="featureSec" class="train-wrap" skrollr-tag="" data-3600="opacity:1" data-3750="opacity:1;" data-top-top="position:fixed; top:0%" data-10750="top:0%; opacity:1" data-11500="top:-100%;opacity:0;" style="opacity: 0; top: 0%; position: fixed;">
+      <img skrollr-tag="" src="assets\designchanges phase1\Train-Tracks.png" class="track skrollable skrollable-before" data-300p="opacity:0;" data-350p="opacity:1;" data-3700="opacity:1;" data-3900="opacity:1;" data-4000="opacity:1;" style="opacity: 0;">
 
       <img skrollr-tag="" src="assets\designchanges phase1\toytrain.png" style="width: 180px; height: 70px;" class="train skrollable skrollable-before" data-4000="top: 65px; left: Calc(100% - 0px);" data-5020="top: 65px; left: calc(50% - 170px); transform: rotate(0deg);" data-5250="transform: rotate(-90deg); top: 120.5px; left: calc(50% - 210px)" data-5500="transform: rotate(-180deg); top: 148px; left: calc(50% - 130px)" data-6000="left: Calc(50% - 15px); transform: rotate(-180deg);" data-6050="transform: rotate(-90deg); left: calc(50% - -30px); top:204px" data-6500="transform: rotate(0deg); left: calc(50% - -10px); top:225px" data-7000="top: 225px; left: calc(50% - 190px); transform: rotate(0deg);" data-7250="transform: rotate(-90deg); top: 285px; left: calc(50% - 210px)" data-7500="transform: rotate(-180deg); left: calc(50% - 125px); top:310px" data-8000="transform: rotate(-180deg); left: calc(50% - 10px); top:310px" data-8250="transform: rotate(-90deg); left: calc(50% - -10px); top:365px" data-8500="transform: rotate(0deg); left: calc(50% - -15px); top:390px" data-8750="transform: rotate(0deg); left: calc(50% - 180px); top:390px" data-9000="transform: rotate(-90deg); left: calc(50% - 210px); top:445px" data-9250="transform: rotate(-180deg); left: calc(50% - 120px); top:470px" data-9750="transform: rotate(-180deg); left: calc(50% - 25px); top:470px" data-10000="transform: rotate(-90deg); left: calc(50% - -25px); top:527.5px" data-10250="transform: rotate(0deg); left: calc(50% - 25px); top:550px" data-10750="transform: rotate(0deg); left: calc(-10% - 20px); top:550px" style="top: 78px; left: calc(100% - 0px); transform: rotate(0deg);">
 
@@ -371,9 +429,9 @@ $(window).scroll(function () {
                       <img src="assets\designchanges phase1\Signboard--Discover-Interests.png" skrollr-tag="" class="dot dot1 skrollable skrollable-before" data-4750="opacity:0; top:120px; left:calc(50% - 180px);" data-5000="opacity:1; top:120px; left:calc(50% - 180px);" style="opacity: 0; top: 120px; left: calc(50% - 180px);">
                       <img src="assets\designchanges phase1\Signboard---videos-meet-content.png" skrollr-tag="" class="dot dot2 skrollable skrollable-before" data-5750="opacity:0; top:205px; left:calc(50% - -95px);" data-6000="opacity:1; top:205px; left:calc(50% - -95px);" style="opacity: 0; top: 205px; left: calc(50% - -95px);">
                       <img src="assets\designchanges phase1\Signboard---shoot-creativity.png" skrollr-tag="" class="dot dot3 skrollable skrollable-before" data-6750="opacity:0; top: 280px; left:calc(50% - 270px);" data-7000="opacity:1; top: 280px; left:calc(50% - 270px);" style="opacity: 0; top: 280px; left: calc(50% - 270px);">
-                      <img src="assets\designchanges phase1\Signboard---express-yourself.png" skrollr-tag="" class="dot dot4 skrollable skrollable-before" data-8750="opacity:0; top: 365px; left:calc(50% + 5px);" data-9500="opacity:1; top: 365px; left:calc(50% + 5px);" style="opacity: 0; top: 365px; left: calc(50% + 5px);">
+                      <img src="assets\designchanges phase1\Signboard---express-yourself.png" skrollr-tag="" class="dot dot4 skrollable skrollable-before" data-7750="opacity:0; top: 365px; left:calc(50% + 5px);" data-8000="opacity:1; top: 365px; left:calc(50% + 5px);" style="opacity: 0; top: 365px; left: calc(50% + 5px);">
                       <img src="assets\designchanges phase1\signboard---own-blog.png" skrollr-tag="" class="dot dot5 skrollable skrollable-before" data-8750="opacity:0; top: 445px; left:calc(50% - 360px);" data-9000="opacity:1; top: 445px; left:calc(50% - 360px);" style="opacity: 0; top: 445px; left: calc(50% - 360px);">
-                      <img src="assets\designchanges phase1\Signbord---share-connect.png" skrollr-tag="" class="dot dot6 skrollable skrollable-before" data-9750="opacity:0; top: 520px; left:calc(50% - 80px);" data-10000="opacity:1; top: 520px; left:calc(50% - 80px);" style="opacity: 0; top: 520px; left: calc(50% - 80px);">
+                      <img src="assets\designchanges phase1\Signbord---share-connect.png" skrollr-tag="" class="dot dot6 skrollable skrollable-before" data-9150="opacity:0; top: 520px; left:calc(50% - 80px);" data-9400="opacity:1; top: 520px; left:calc(50% - 80px);" style="opacity: 0; top: 520px; left: calc(50% - 80px);">
 
                       <div class="text tl1 skrollable skrollable-before" skrollr-tag="" data-4750="opacity:0; top:80px; left:calc(50% - 450px);" data-5000="opacity:1;" data-10250="opacity:1; left:calc(50% - 450px);" data-10750="opacity:0; left: calc(0% - 0px)" style="opacity: 0; top: 80px; left: calc(50% - 450px);">
                           <p class="num">Discover Interest</p>
@@ -407,7 +465,7 @@ $(window).scroll(function () {
 													<p class="train-text">the world in the easiest possible way</p>
                       </div>
 
-                      <div class="text tr3 skrollable skrollable-before" skrollr-tag="" data-9750="opacity:0; top:470px; left:calc(50% - -200px);" data-10000="opacity:1;" data-10250="opacity:1; left:calc(50% - -200px);" data-10750="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 470px; left: calc(50% - -200px);">
+                      <div class="text tr3 skrollable skrollable-before" skrollr-tag="" data-9150="opacity:0; top:470px; left:calc(50% - -200px);" data-9400="opacity:1;" data-10250="opacity:1; left:calc(50% - -200px);" data-10750="opacity:0; left: calc(100% - 0px)" style="opacity: 0; top: 470px; left: calc(50% - -200px);">
                           <p class="num">Share Connect</p>
 													<p class="train-text">Family, friends, business and love, each play a</p>
                           <p class="train-text">different role in your life. Let’s keep each bond special.</p>
@@ -422,64 +480,47 @@ $(window).scroll(function () {
 
 <!--About us -->
 <div id="carousel" data-0p="transform:translate(0,100%);opacity:1;" data-100p="transform:translate(0,0%);opacity:1;" data-200p="transform:translate(0,0%);opacity:1;" data-300p="transform:translate(0,-100%);opacity:0;">
-    <div>
-      <!-- Carousel -->
-        <div class="c-carousel">
-          <div class="c-carousel__arrow c-carousel__arrow--left"><span class="glyphicon glyphicon-chevron-left carousel-gly"></span></div>
-          <div class="c-carousel__arrow c-carousel__arrow--right"> <span class="glyphicon glyphicon-chevron-right carousel-gly"></span></div>
-          <ul class="c-carousel__slides">
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-201156.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-201528.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-201647.png"/></li>
-              <li><img class="carousel-img" src="folder/Screenshot_20171225-201855.png"/></li>
-          </ul>
-        </div>
-    </div>
-    <div class="container text-center" style="margin-top: 40px">
-        <p style="color: #000000; font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it &nbsp; <span style="font-size: 50px">"</span> ` ` ` ` ` ` `                       - Kshitij Doval</p>
-    </div>
-    <!--<div class="contain&nbsp&nbsper text-center" style="margin-top: 40px">
-        <p style="color: #ffffff;font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%; text-align: justify; text-justify: inter-word;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it&nbsp; <span style="font-size: 50px">"</span><br/> - Kshitij Doval</p>
-    </div>  -->
+   <div>
+       <!-- Carousel -->
+         <div class="c-carousel">
+           <div class="c-carousel__arrow c-carousel__arrow--left"><span class="glyphicon glyphicon-chevron-left carousel-gly"></span></div>
+           <div class="c-carousel__arrow c-carousel__arrow--right"> <span class="glyphicon glyphicon-chevron-right carousel-gly"></span></div>
+           <ul class="c-carousel__slides">
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-200712.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201156.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201528.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201647.png"/></li>
+               <li><img class="carousel-img" src="folder/Screenshot_20171225-201855.png"/></li>
+           </ul>
+         </div>
+     </div>
+     <div class="container text-center" style="margin-top: 40px">
+         <p style="color: #000000; font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it &nbsp; <span style="font-size: 50px">"</span> ` ` ` ` ` ` `                       - Kshitij Doval</p>
+     </div>
+     <!--<div class="contain&nbsp&nbsper text-center" style="margin-top: 40px">
+         <p style="color: #ffffff;font-size: 25px; font-family: 'Lobster', cursive; line-height: 150%; text-align: justify; text-justify: inter-word;"><span style="font-size: 50px">"</span>Everybody is creative! As you grow older, the environment around you kills your creativity. But not anymore. Unhu helps you rediscover your creative side and stay connected with it&nbsp; <span style="font-size: 50px">"</span><br/> - Kshitij Doval</p>
+     </div>  -->
+	<img src="https://img.buzzfeed.com/buzzfeed-static/static/2016-01/7/11/enhanced/webdr03/enhanced-buzz-32618-1452185446-0.jpg" width="100%" height="100%"alt="red color">
 </div>
-	<div id="aboutSec" style="z-index:6" data-0="transform:translate(0,100%);opacity:1;" data-200p="transform:translate(0,100%)" data-300p="transform:translate(0,0%)" data-400p="opacity:1;" data-450p="opacity:1;" data-500p="opacity:1;" data-501p="opacity:0;" data-_box-300p="" data-_box-300p="transform:translate(0,0%);opacity:1;" data-_box-324p="transform:translate(0,0%);opacity:1;" data-_box-501p="transform:translate(0,0%);opacity:0;" data-_box-502p="transform:translate(0,-100%);opacity:0;">
+	<div id="aboutSec" style="z-index:5;" data-0="transform:translate(0,100%);opacity:1;" data-200p="transform:translate(0,100%)" data-250p="transform:translate(0,0%);opacity:1;"  data-500p="opacity:1;transform:translate(0,-100%)" data-501p="opacity:0;" data-_box-300p="" data-_box-300p="transform:translate(0,0%);opacity:1;" data-_box-224p="transform:translate(0,0%);opacity:1;" data-_box-501p="transform:translate(0,-100%);opacity:0;" data-_box-502p="transform:translate(0,-100%);opacity:0;">
 		<div class="box" data-300p="opacity:1;" data-_box-350p="opacity:1;"  data-450p="opacity:1;" data-474p="opacity:1;" data-500p="opacity:1;" data-551p="opacity:0;">
       <div data-300p="opacity:0;"  data-350p="opacity:1;" data-350p="opacity:1;"  data-410p="opacity: 1" data-474p="opacity:0;" data-475p="opacity:0;">
-
-				<!-- <div class="col-md-6 col-sm-6">
-					<div class="row">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-					</div>
-					<div  id="insta" class="row">
-						<img src="http://www.color-hex.com/palettes/1051.png" width="560" height="315">
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-6">
-					<div class="row" id="about"><h1>About us</h1></div>
-					<div class="row" id="aboutPic" style="padding: 30px 40px;text-align:justify">
-						<p class="col-sm-6 col-md-6" style="text-align:justify;font-style:Roboto;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
-
-						<p class="col-sm-6 col-md-6" style="text-align:justify">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
-
-				</div>
-			</div> -->
 
       <div class="row">
         <div class="col-sm-6 col-md-6"></div><div class="col-sm-6 col-md-6" id="about"><h1>About us</h1></div></div>
         <div class="row"><div class="col-sm-6 col-md-6">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/CIsDYDNWinc?rel=0" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe></div>
           <div id="aboutPic" class="col-sm-6 col-md-6" style="padding: 30px 40px;text-align:justify">
 
 
 
 
-            <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive; text-align: justify; text-justify: inter-word; font-family: 'Alegreya', serif; font-size: 22px;">Unhu is the way an individual views the world around, with values of kindness, respect, humility, consideration towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
-
+             <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive; text-align: justify; text-justify: inter-word; font-family: 'Alegreya', serif; font-size: 22px;">Unhu is the way an individual views the world around, with values of kindness, respect, humility, consideration towards others and self; and most of all a sense of responsibility towards people like us and different alike.</p>
+ 
             <p class="col-sm-6 col-md-6" style="font-family: 'Indie Flower', cursive;text-align: justify; text-justify: inter-word; font-family: 'Alegreya', serif; font-size: 22px;">Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
-
+  font-family: 'Alegreya', serif;text-align:justify; font-size: 2vw;">Unhu is the way an individual views the world around, with values of kindness, respect, consideration, humility towards others and self; and most of all a sense of responsibility towards people like us and different alike.<br/><br/>Being a social networking platform, Unhu-app, aims to make use of technology, using videos and content in order to assist people to never run out of interesting things to talk about in real life; encouraging harmony and interaction and bridging gaps between human relations.</p>
           </div>
         </div>
 
@@ -487,7 +528,7 @@ $(window).scroll(function () {
     </div>
 	</div>
 </div>
-<div class="train-reveal" style="z-index:7" data-0="transform:translate(0,100%);opacity:0;" data-349p="transform:translate(0,110%);opacity:0;" data-449p="transform:translate(0,110%);opacity:0;" data-450p="transform:translate(0,100%);opacity:1;" data-500p="transform:translate(0,0%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:0;" data-581p="transform:translate(0,-150%);opacity:0;">
+<div class="train-reveal" style="z-index:7;background:rgba(0,0,0,0);" data-0="transform:translate(0,100%);opacity:0;" data-349p="transform:translate(0,110%);opacity:0;" data-449p="transform:translate(0,110%);opacity:0;" data-450p="transform:translate(0,100%);opacity:1;" data-500p="transform:translate(0,0%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:1;" data-580p="transform:translate(0,-100%);opacity:0;" data-581p="transform:translate(0,-150%);opacity:0;">
 	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
 </div>
 
@@ -559,9 +600,9 @@ $(window).scroll(function () {
 	<div class="title"><img src="assets\designchanges phase1\Parallax-1.png"></div>
 </div>
 
-<div class="testimonial-section skrollable skrollable-between" style="z-index:5;" skrollr-tag="" data-0="top:100%;opacity:0;" data-11574="top:100%;opacity:0;" data-11575="top:100%;opacity:1;" data-11950="top:0%;opacity:1;" data-top-top="position:fixed; top:1%" data-14373="top:0%" data-14523="top:-75%" data-14573="top:-100%;opacity:1;" style="position: fixed; top: 0%; opacity: 0;">
-		<img src="assets\integrationoftheballonsection\1.png" skrollr-tag="" class="balloon1 skrollable skrollable-before" data-12275="top:100%; left:100px" data-13273="top:-120%;left:100px" style="top: 100%; left: 100px;">
-		<img src="assets\integrationoftheballonsection\2.png" skrollr-tag="" class="balloon2 skrollable skrollable-before" data-12733="top:100%; right:100px;" data-13333="top:-90%" style="top: 100%; right: 100px;">
+<div class="testimonial-section skrollable skrollable-between" style="z-index:3;" skrollr-tag="" data-0="top:100%;opacity:0;" data-11574="top:100%;opacity:0;" data-11575="top:100%;opacity:1;" data-11950="top:0%;opacity:1;" data-top-top="position:fixed; top:1%" data-14373="top:0%" data-14523="top:-75%" data-14573="top:-100%;opacity:1;" style="position: fixed; top: 0%; opacity: 0;">
+		<img src="assets\integrationoftheballonsection\1.png" skrollr-tag="" class="balloon1 skrollable skrollable-before" data-11375="top:100%; left:100px" data-13273="top:-120%;left:100px" style="top: 100%; left: 100px;">
+		<img src="assets\integrationoftheballonsection\2.png" skrollr-tag="" class="balloon2 skrollable skrollable-before" data-12233="top:100%; right:100px;" data-13333="top:-90%" style="top: 100%; right: 100px;">
 		<img src="assets\integrationoftheballonsection\3.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-12823="top:100%; left:200px" data-14223="top:-100%" style="top: 100%; left: 200px;">
 		<img src="assets\integrationoftheballonsection\4.png" skrollr-tag="" class="balloon4 skrollable skrollable-before" data-13373="top:100%; right:100px;" data-14373="top:-90%" style="top: 100%; right: 100px;">
 		<img src="assets\integrationoftheballonsection\5.png" skrollr-tag="" class="balloon3 skrollable skrollable-before" data-13823="top:100%; left:200px" data-13923="top:100%;"data-14573="top:-100%" style="top: 100%; left: 200px;">
@@ -570,12 +611,12 @@ $(window).scroll(function () {
 		<img src="assets\integrationoftheballonsection\Cloud1.png" skrollr-tag="" class="cloud1 skrollable skrollable-before" data-13073="top:150%;left:60%;" data-14073="top:-80%;" style="top: 150%; left: 60%;">
 		<img src="assets\integrationoftheballonsection\cloud5.png" skrollr-tag="" class="cloud3 skrollable skrollable-before" data-13623="top:100%" data-13823="top:60%" data-14573="top:-70%;" style="top: 100%;">
 
-		<div class="test skrollable skrollable-before" skrollr-tag="" data-12345="top:100%; left:400px" data-13343="top:-120%" style="top: 100%; left: 400px;">
-        <p class="quote">A powerful Machine Learning technology used in the news feed &nbsp;&nbsp;</p>
+		<div class="test skrollable skrollable-before" skrollr-tag="" data-11445="top:100%; left:400px" data-13343="top:-120%" style="top: 100%; left: 400px;">
+        <p class="quote">"A powerful Machine Learning technology used in the news feed &nbsp;&nbsp;"</p>
         <p class="quote">to show you the content of your choice in the language of your choice.&nbsp;</p>
     </div>
 
-    <div class="test right skrollable skrollable-before" skrollr-tag="" data-12775="top:100%; right:350px;" data-13375="top:-90%" style="top: 100%; right: 350px;">
+    <div class="test right skrollable skrollable-before" skrollr-tag="" data-12275="top:100%; right:350px;" data-13375="top:-90%" style="top: 100%; right: 350px;">
         <p class="quote">The best content from your favourite genre &nbsp;&nbsp;</p>
         <p class="quote">is now just 2 taps away!&nbsp;&nbsp;</p>
         <p class="quote"></p>
@@ -603,7 +644,7 @@ $(window).scroll(function () {
 </div>
 </div>
 
-<div  id="instaExit" style="z-index:7;" class="train-reveal" data-14173="top:108%;opacity:1" data-14174="top:105%;opacity:1" data-14373="top:55%" data-14573="top:5%;opacity:1" data-14948="top:-70%" data-15073="top:-95%;opacity:1" data-15448="top:-170%;opacity:0">
+<div  id="instaExit" style="z-index:7;" class="train-reveal" data-14168="top:120%;opacity:1" data-14173="top:108%;opacity:1" data-14174="top:105%;opacity:1" data-14373="top:55%" data-14573="top:5%;opacity:1" data-14948="top:-70%" data-15073="top:-95%;opacity:1" data-15448="top:-170%;opacity:0">
 	<div class="title"><img src="assets\designchanges phase1\Train-reveal.png"></div>
 </div>
 <!-- our team section scroll:9250 to 12000 -->
@@ -685,7 +726,7 @@ $(window).scroll(function () {
 											                            </div>
 											                            <div class="team-title">
 															    <h5><u>KARTIK SINGH</u></h5>
-											                                <span>Chief Design Partner, Co-founder</span><br>
+											                                <span>Chief Design Officer(CDO), Co-Founder</span><br>
 																									<!--		<p style="text-align: justify;font-size: 15px;font-weight: 400;">Worked as Senior Executive in Grofers. The chief architect behind building the design infrastructure of the company. He is the Da Vinci of Unhu
 											</p>									-->
 											                            </div>
@@ -944,7 +985,6 @@ $(window).scroll(function () {
   </div>
 </div>
 
-
 </div>
 
 <!-- <div id="headerpanel" style="transform: translate3d(0px, 0px, 0px);opacity:1;">
@@ -972,8 +1012,8 @@ $(window).scroll(function () {
 
 
   <script type="text/javascript" src="public/scripts/skrollr.js"></script>
-  <script type="text/javascript" src="public/scripts/skrollr.menu.min.js"></script>
-  <script type="text/javascript">
+<script type="text/javascript" src="public/scripts/skrollr.menu.min.js"></script>
+<script type="text/javascript">
   var s = skrollr.init({
     constants: {
       //fill the box for a "duration" of 150% of the viewport (pause for 150%)
@@ -1024,7 +1064,7 @@ skrollr.menu.init(s, {
   updateUrl: false //defaults to `true`.
 });
   </script>
-
+  <script type="text/javascript" src="scipt.js"></script>
 </body>
 
 </html>
