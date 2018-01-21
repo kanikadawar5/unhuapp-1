@@ -496,6 +496,9 @@ footer {
 }
 
 @media only screen and (max-width: 768px) {
+	#insta {
+ display : none;	
+}
   .footer-list-header {
     font-size: 2em;
   }
